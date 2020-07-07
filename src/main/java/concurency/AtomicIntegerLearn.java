@@ -1,3 +1,5 @@
+package concurency;
+
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAdder;
 

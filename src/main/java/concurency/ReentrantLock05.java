@@ -1,3 +1,5 @@
+package concurency;
+
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ReentrantLock05 extends Thread {
