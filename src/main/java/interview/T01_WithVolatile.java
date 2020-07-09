@@ -1,11 +1,11 @@
 package interview;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-
-public class WithoutVolatile {
-    ArrayList lists = new ArrayList();
+public class T01_WithVolatile {
+    volatile List lists = new LinkedList();
     public void add(Object o){
         lists.add(o);
     }
@@ -15,7 +15,16 @@ public class WithoutVolatile {
     }
 
     public static void main(String[] args) {
-        WithoutVolatile c = new WithoutVolatile();
+        T01_WithVolatile c = new T01_WithVolatile();
+
+        new Thread(()->{
+            while (true) {
+                if (c.size() == 5) {
+                    break;
+                }
+            }
+            System.out.println("t2 结束");
+        },"t2").start();
 
         new Thread(()->{
             for (int i = 0; i < 10; i++) {
@@ -31,13 +40,6 @@ public class WithoutVolatile {
             }
         },"t1").start();
 
-        new Thread(()->{
-            while (true) {
-                if (c.size() == 5) {
-                    break;
-                }
-            }
-            System.out.println("t2 结束");
-        },"t2").start();
+
     }
 }

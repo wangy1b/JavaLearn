@@ -2,10 +2,9 @@ package interview;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
-public class LockSupportWithoutSleep {
+public class T06_LockSupportWithoutSleep {
 
     volatile List lists = new ArrayList();
 
@@ -21,7 +20,7 @@ public class LockSupportWithoutSleep {
 
 
     public static void main(String[] args) {
-        LockSupportWithoutSleep c = new LockSupportWithoutSleep();
+        T06_LockSupportWithoutSleep c = new T06_LockSupportWithoutSleep();
 
         t1 = new Thread(() -> {
             System.out.println("t1 启动");
