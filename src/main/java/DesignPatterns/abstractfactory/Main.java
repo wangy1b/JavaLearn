@@ -10,6 +10,7 @@ public class Main {
 //        Bread b = new Bread();
 //        b.printName();
 
+
 //        AbstracFactory f = new ModernFactory();
         AbstracFactory f = new MagicFactory();
         Vehicle c = f.createVehicle();
