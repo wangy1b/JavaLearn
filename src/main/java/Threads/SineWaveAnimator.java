@@ -12,12 +12,14 @@ public class SineWaveAnimator extends JFrame implements Runnable  {
         setSize(500, 200);
         setVisible(true);
     }
+
     public static void main(String[] args) {
         SineWaveAnimator app = new SineWaveAnimator();
         Thread animator = new Thread(app);
         animator.setDaemon(true);
         animator.start();
     }
+
     public void run() {
         while (true) {
             repaint();
@@ -28,6 +30,7 @@ public class SineWaveAnimator extends JFrame implements Runnable  {
             frame++;
         }
     }
+
     @Override
     public void paint(Graphics g) {
         Rectangle d = getBounds();
