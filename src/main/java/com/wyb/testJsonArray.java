@@ -1,4 +1,4 @@
-import com.alibaba.fastjson.JSONArray;
+package com.wyb;import com.alibaba.fastjson.JSONArray;
 //import org.junit.Test;
 
 import java.io.*;

@@ -1,4 +1,4 @@
-public class DynamicOddsGenerator {
+package com.wyb;public class DynamicOddsGenerator {
     private final static int SIZE = 25;
     private int[] arrayOfInts = new int[SIZE];
     public DynamicOddsGenerator() {

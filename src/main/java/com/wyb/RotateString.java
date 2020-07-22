@@ -1,4 +1,4 @@
-// 左右字符串交换
+package com.wyb;// 左右字符串交换
 public class RotateString {
     public  static String rotate1(String s,int leftSize) {
         if (leftSize <=0 || leftSize >= s.length()) {

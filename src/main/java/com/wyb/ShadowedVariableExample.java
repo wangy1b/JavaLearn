@@ -1,4 +1,4 @@
-class Outer1 {
+package com.wyb;class Outer1 {
     private int size = 10;
     int getOutSize(){
         return this.size;

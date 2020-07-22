@@ -1,4 +1,4 @@
-import java.io.*;
+package com.wyb;import java.io.*;
 import java.net.*;
 
 public class MultipleExceptionsExample {

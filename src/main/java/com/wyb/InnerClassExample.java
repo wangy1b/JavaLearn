@@ -1,4 +1,4 @@
-class Outer {
+package com.wyb;class Outer {
     private int counter=0;
     public class Inner {
         public void someMethod() {
