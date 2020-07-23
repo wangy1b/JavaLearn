@@ -1,4 +1,4 @@
-package DesignPatterns.Observer;
+package com.wyb.DesignPatterns.Observer;
 
 import java.awt.*;
 import java.awt.event.*;

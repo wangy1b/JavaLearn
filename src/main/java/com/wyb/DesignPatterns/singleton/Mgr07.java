@@ -1,4 +1,4 @@
-package DesignPatterns.singleton;
+package com.wyb.DesignPatterns.singleton;
 
 /**
  * 静态内部类方式

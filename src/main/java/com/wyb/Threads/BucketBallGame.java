@@ -1,4 +1,4 @@
-package Threads;
+package com.wyb.Threads;
 
 public class BucketBallGame {
 

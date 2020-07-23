@@ -1,4 +1,4 @@
-package DesignPatterns.flyweight;
+package com.wyb.DesignPatterns.flyweight;
 
 import java.util.ArrayList;
 import java.util.List;

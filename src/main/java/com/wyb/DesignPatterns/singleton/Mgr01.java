@@ -7,7 +7,7 @@
  * （话说你不用的，你装载它干啥）
  */
 
-package DesignPatterns.singleton;
+package com.wyb.DesignPatterns.singleton;
 
 public class Mgr01 {
     private static final Mgr01 INSTANCE = new Mgr01();

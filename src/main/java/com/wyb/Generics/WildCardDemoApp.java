@@ -1,4 +1,4 @@
-package Generics;
+package com.wyb.Generics;
 
 public class WildCardDemoApp {
 

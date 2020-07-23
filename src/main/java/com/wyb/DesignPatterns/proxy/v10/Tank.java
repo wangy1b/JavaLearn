@@ -1,4 +1,4 @@
-package DesignPatterns.proxy.v10;
+package com.wyb.DesignPatterns.proxy.v10;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

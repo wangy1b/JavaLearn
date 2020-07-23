@@ -1,4 +1,4 @@
-package DesignPatterns.singleton;
+package com.wyb.DesignPatterns.singleton;
 /**
  * lazy loading
  * 也称懒汉式

@@ -1,4 +1,4 @@
-package DesignPatterns.ASM;
+package com.wyb.DesignPatterns.ASM;
 
 import org.objectweb.asm.*;
 import static org.objectweb.asm.Opcodes.*;

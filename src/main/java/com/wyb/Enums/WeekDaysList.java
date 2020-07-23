@@ -1,4 +1,4 @@
-package Enums;
+package com.wyb.Enums;
 
 public class WeekDaysList {
     public static void main(String[] args) {

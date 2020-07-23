@@ -1,4 +1,4 @@
-package Threads;
+package com.wyb.Threads;
 
 public class PrimeNumberGenerator {
     public static void main(String[] args) {

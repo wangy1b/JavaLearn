@@ -1,4 +1,4 @@
-package DesignPatterns.Iterator.v1;
+package com.wyb.DesignPatterns.Iterator.v1;
 
 public class Main {
     public static void main(String[] args) {

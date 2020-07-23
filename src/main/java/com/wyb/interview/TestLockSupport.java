@@ -1,4 +1,4 @@
-package interview;
+package com.wyb.interview;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;

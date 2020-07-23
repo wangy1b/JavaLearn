@@ -1,4 +1,4 @@
-package DesignPatterns.Iterator.v4;
+package com.wyb.DesignPatterns.Iterator.v4;
 
 public interface Collection_ {
     void add(Object o);

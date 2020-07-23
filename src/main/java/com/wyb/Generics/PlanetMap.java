@@ -1,4 +1,4 @@
-package Generics;
+package com.wyb.Generics;
 
 import java.util.*;
 

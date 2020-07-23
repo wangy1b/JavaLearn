@@ -1,4 +1,4 @@
-package DesignPatterns.Iterator.v4;
+package com.wyb.DesignPatterns.Iterator.v4;
 
 /**
  *  v1:构建一个容器，可以添加对象

@@ -2,7 +2,7 @@
  * 跟01一个意思
  */
 
-package DesignPatterns.singleton;
+package com.wyb.DesignPatterns.singleton;
 
 public class Mgr02 {
 

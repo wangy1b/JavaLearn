@@ -1,4 +1,6 @@
-package com.wyb;import java.util.Random;
+package com.wyb.Classes;
+
+import java.util.Random;
 
 public class VisitorRoster {
     private final int MAX_CAPACITY = 100;

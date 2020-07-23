@@ -1,4 +1,4 @@
-package DesignPatterns.composite;
+package com.wyb.DesignPatterns.composite;
 
 
 import java.util.ArrayList;

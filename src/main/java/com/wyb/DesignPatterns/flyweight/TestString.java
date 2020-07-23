@@ -1,4 +1,4 @@
-package DesignPatterns.flyweight;
+package com.wyb.DesignPatterns.flyweight;
 
 public class TestString {
     public static void main(String[] args) {

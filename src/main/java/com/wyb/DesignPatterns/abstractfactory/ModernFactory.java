@@ -1,4 +1,4 @@
-package DesignPatterns.abstractfactory;
+package com.wyb.DesignPatterns.abstractfactory;
 
 public class ModernFactory  extends AbstracFactory{
 

@@ -1,4 +1,6 @@
-package com.wyb;import java.util.Arrays;
+package com.wyb.Classes;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

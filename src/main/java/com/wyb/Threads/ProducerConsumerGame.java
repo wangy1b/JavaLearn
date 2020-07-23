@@ -1,4 +1,4 @@
-package Threads;
+package com.wyb.Threads;
 
 public class ProducerConsumerGame {
     public static void main(String args[]) {

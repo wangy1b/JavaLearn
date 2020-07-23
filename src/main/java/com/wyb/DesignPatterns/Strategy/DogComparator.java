@@ -1,4 +1,4 @@
-package DesignPatterns.Strategy;
+package com.wyb.DesignPatterns.Strategy;
 
 public class DogComparator implements Comparator<Dog> {
 

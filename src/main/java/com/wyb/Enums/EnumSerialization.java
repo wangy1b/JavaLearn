@@ -1,4 +1,4 @@
-package Enums;
+package com.wyb.Enums;
 import java.io.*;
 public class EnumSerialization {
 

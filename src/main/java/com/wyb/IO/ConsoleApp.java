@@ -1,4 +1,4 @@
-package IO;
+package com.wyb.IO;
 
 import java.io.Console;
 import java.util.Arrays;

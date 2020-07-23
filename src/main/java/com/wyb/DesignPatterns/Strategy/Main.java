@@ -1,4 +1,4 @@
-package DesignPatterns.Strategy;
+package com.wyb.DesignPatterns.Strategy;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

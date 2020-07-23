@@ -1,4 +1,4 @@
-package DesignPatterns.Iterator.v7;
+package com.wyb.DesignPatterns.Iterator.v7;
 
 public interface Iterator_<E> {
     boolean hasNext();

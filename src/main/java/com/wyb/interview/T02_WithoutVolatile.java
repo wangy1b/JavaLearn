@@ -1,4 +1,4 @@
-package interview;
+package com.wyb.interview;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;

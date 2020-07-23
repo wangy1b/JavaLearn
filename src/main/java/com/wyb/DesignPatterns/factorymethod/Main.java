@@ -1,4 +1,4 @@
-package DesignPatterns.factorymethod;
+package com.wyb.DesignPatterns.factorymethod;
 
 public class Main {
     public static void main(String[] args) {

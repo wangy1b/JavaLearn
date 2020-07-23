@@ -1,4 +1,4 @@
-package interview;
+package com.wyb.interview;
 
 public class T08_Question {
     public static void main(String[] args) {

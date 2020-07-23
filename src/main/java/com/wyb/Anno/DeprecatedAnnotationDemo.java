@@ -1,4 +1,4 @@
-package Anno;
+package com.wyb.Anno;
 
 public class DeprecatedAnnotationDemo {
 

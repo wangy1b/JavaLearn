@@ -1,4 +1,4 @@
-package concurency;
+package com.wyb.concurency;
 
 import java.util.Random;
 import java.util.concurrent.Phaser;

@@ -1,4 +1,4 @@
-package DesignPatterns.singleton;
+package com.wyb.DesignPatterns.singleton;
 
 public class Mgr06 {
 

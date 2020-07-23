@@ -1,4 +1,4 @@
-package concurency;
+package com.wyb.concurency;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;

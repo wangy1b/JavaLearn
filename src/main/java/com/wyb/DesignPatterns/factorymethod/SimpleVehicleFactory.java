@@ -1,4 +1,4 @@
-package DesignPatterns.factorymethod;
+package com.wyb.DesignPatterns.factorymethod;
 
 public class SimpleVehicleFactory {
     public Car createCar(){

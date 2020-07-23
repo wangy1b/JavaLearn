@@ -1,4 +1,4 @@
-package Threads;
+package com.wyb.Threads;
 
 import java.io.IOException;
 import java.util.concurrent.*;

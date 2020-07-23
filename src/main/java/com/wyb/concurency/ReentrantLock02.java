@@ -1,4 +1,4 @@
-package concurency;
+package com.wyb.concurency;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;

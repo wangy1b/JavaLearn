@@ -1,4 +1,4 @@
-package Enums;
+package com.wyb.Enums;
 
 public class UnitsConverter {
     private static double numberToConvert = 0;

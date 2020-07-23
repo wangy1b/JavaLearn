@@ -1,4 +1,4 @@
-package concurency;
+package com.wyb.concurency;
 
 import sun.misc.Unsafe;
 

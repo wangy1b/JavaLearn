@@ -4,7 +4,7 @@
  * 虽然达到了按需初始化的目的，但却带来线程不安全的问题
  */
 
-package DesignPatterns.singleton;
+package com.wyb.DesignPatterns.singleton;
 
 public class Mgr03 {
     private static Mgr03 INSTANCE;

@@ -1,4 +1,4 @@
-package DesignPatterns.cor;
+package com.wyb.DesignPatterns.cor;
 
 
 import java.util.ArrayList;

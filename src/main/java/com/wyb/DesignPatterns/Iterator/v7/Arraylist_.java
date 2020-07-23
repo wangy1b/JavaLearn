@@ -1,4 +1,4 @@
-package DesignPatterns.Iterator.v7;
+package com.wyb.DesignPatterns.Iterator.v7;
 
 public class Arraylist_<E> implements Collection_<E> {
 

@@ -6,7 +6,7 @@
  *
  */
 
-package interview;
+package com.wyb.interview;
 
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;

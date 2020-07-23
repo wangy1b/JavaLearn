@@ -1,4 +1,4 @@
-package IO;
+package com.wyb.IO;
 import java.io.*;
 public class WordAndNumberParser {
     public static void main(String args[]) throws IOException {

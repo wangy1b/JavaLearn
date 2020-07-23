@@ -1,4 +1,6 @@
-package com.wyb;import java.util.concurrent.CountDownLatch;
+package com.wyb.Others;
+
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class testAtomicInteger {

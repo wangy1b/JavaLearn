@@ -1,4 +1,4 @@
-package DesignPatterns.visitor;
+package com.wyb.DesignPatterns.visitor;
 
 public class Computer {
     ComputerPart cpu = new CPU();

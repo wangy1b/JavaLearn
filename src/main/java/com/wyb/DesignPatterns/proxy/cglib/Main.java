@@ -1,4 +1,4 @@
-package DesignPatterns.proxy.cglib;
+package com.wyb.DesignPatterns.proxy.cglib;
 
 
 

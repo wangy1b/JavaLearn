@@ -1,4 +1,4 @@
-package DesignPatterns.Iterator.v3;
+package com.wyb.DesignPatterns.Iterator.v3;
 
 public class LinkedList_ implements Collection_{
     Node head = null;

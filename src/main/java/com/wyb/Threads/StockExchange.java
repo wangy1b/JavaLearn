@@ -1,4 +1,4 @@
-package Threads;
+package com.wyb.Threads;
 
 import org.omg.CORBA.TIMEOUT;
 

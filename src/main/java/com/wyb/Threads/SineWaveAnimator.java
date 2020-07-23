@@ -1,4 +1,4 @@
-package Threads;
+package com.wyb.Threads;
 
 import java.awt.*;
 import javax.swing.JFrame;

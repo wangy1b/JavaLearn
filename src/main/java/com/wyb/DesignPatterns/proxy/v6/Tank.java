@@ -1,4 +1,4 @@
-package DesignPatterns.proxy.v6;
+package com.wyb.DesignPatterns.proxy.v6;
 
 import java.util.Random;
 

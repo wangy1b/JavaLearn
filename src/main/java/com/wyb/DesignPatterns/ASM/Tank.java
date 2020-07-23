@@ -1,4 +1,4 @@
-package DesignPatterns.ASM;
+package com.wyb.DesignPatterns.ASM;
 
 public class Tank {
     public void m(){
