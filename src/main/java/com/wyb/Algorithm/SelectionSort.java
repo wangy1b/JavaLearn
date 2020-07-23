@@ -2,13 +2,13 @@ package com.wyb.Algorithm;
 
 /**
  * 优化思路：
- * 1.选择最小值pos的同时找出最大值的pos。这样能减少一半的循环
- * 2.每次找出剩下值中两个值一起比较，先比较选择的两个值的大小
- * 3.写一个程序证明选择排序不稳定
+ * 1.选择最小值pos的同时找出最大值的pos。这样能减少一半的循环?
+ * 2.每次找出剩下值中两个值一起比较，先比较选择的两个值的大小?
+ * 3.写一个程序证明选择排序不稳定?
  */
 public class SelectionSort {
     public static void main(String[] args) {
-        int[] arr = {5, 3, 6, 8, 1, 7, 9, 4, 2};
+        int[] arr = {5, 3, 6, 8, 1, 7, 9, 4, 2, 10};
         // sort(arr);
         sortAdvance(arr);
     }
@@ -34,20 +34,20 @@ public class SelectionSort {
             if (minPos == maxPos ) {
                 break;
             }
-            for (int j = i + 1; j < arr.length -1; j++) {
+            for (int j = i + 1; j < arr.length - 1; j++) {
                 minPos = arr[j] < arr[minPos] ? j : minPos;
-
-                // int k = maxPos - 1 ;
-                // maxPos = arr[k] > arr[maxPos] ? k : maxPos;
+                //int maxPosPre = maxPos - 1;
+                //maxPos = arr[maxPosPre] > arr[maxPos] ? maxPosPre : maxPos;
 
             }
-            swap(arr, minPos, i);
-            for (int k = maxPos - 1; k >= 0; k--) {
-                maxPos = arr[k] > arr[maxPos] ? k : maxPos;
+            //swap(arr, minPos, i);
+            for (int maxPre = maxPos - 1; maxPre >= 0; maxPre--) {
+                maxPos = arr[maxPre] > arr[maxPos] ? maxPre : maxPos;
             }
+
             swap(arr, arr.length - 1 - i, maxPos);
-            // System.out.print(String.format("经过%s次排序后结果为：", i + 1));
-            // printArr(arr);
+            System.out.print(String.format("经过%s次排序后结果为：", i + 1));
+            printArr(arr);
         }
         return arr;
     }
