@@ -23,7 +23,7 @@ public class QuickSort {
         int left = leftBound;
         int right = rightBound - 1;
 
-        while (left < right) {
+        while (left <= right) {
             while (left <= right && arr[left] <= pivot) left ++;
             while (left <= right && arr[right] > pivot) right --;
             if (left < right) swap(arr, left, right);

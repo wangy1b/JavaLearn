@@ -8,6 +8,11 @@ public class Review {
         // bubbleTest(arr);
         // insertionTest(arr);
         printArr(arr);
+        System.out.println("------");
+        quickSort(arr, 0,arr.length-1);
+        printArr(arr);
+
+        // countSort(arr);
     }
 
     private static void selectionTest(int[] arr){
@@ -61,6 +66,56 @@ public class Review {
             System.out.print(arr[i] + " ");
         }
         System.out.println();
+    }
+
+
+    private static void countSort(int[] arr) {
+        int[] countArr = new int[10];
+        int[] newArr = new int[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            countArr[arr[i]]++;
+        }
+
+        for (int i = 0,j=0; i < countArr.length; i++) {
+            while (countArr[i]-- > 0) {
+                newArr[j++] = i;
+            }
+        }
+        printArr(newArr);
+    }
+
+
+    private static void quickSort(int[] arr, int leftbound, int rightbound){
+
+        if (leftbound >= rightbound) return;
+        int mid = partition(arr,leftbound,rightbound);
+        quickSort(arr,leftbound,mid -1 );
+        quickSort(arr,mid + 1,rightbound );
+
+    }
+
+    private static int partition(int[] arr, int leftbound, int rightbound) {
+        // 选取最右边的一个数为pivot，从左边依次选到比pivot大的数，从右边依次选到比pivot小的数，然后交换
+        int pivot = arr[rightbound];
+        int left = leftbound;
+        int right = rightbound-1;
+
+        while (left <= right) {
+            while (left <= right && arr[left] <= pivot) {
+                left ++;
+            }
+
+            while (left <= right && arr[right] > pivot){
+                right --;
+            }
+            if (left < right) {
+                swap(arr, left, right);
+            }
+        }
+
+        swap(arr, left,rightbound);
+        return left;
     }
 
 
