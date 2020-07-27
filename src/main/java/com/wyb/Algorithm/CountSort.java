@@ -1,6 +1,6 @@
 package com.wyb.Algorithm;
 
-/**
+/** 桶排序一种
  *  问题：
  *  1. 如何解决countArr数组前面空来的部分
  *  2.如何解决稳定性的问题
@@ -44,11 +44,20 @@ public class CountSort {
         for (int i = 0; i < arr.length; i++) {
             countArr[arr[i]] ++;
         }
+        // for (int i = 0,j = 0; i < countArr.length; i++) {
+        //     while ( countArr[i]-- > 0) {
+        //         newArr[j++] = i;
+        //     }
+        // }
+        // return newArr;
 
-        for (int i = 0,j = 0; i < countArr.length; i++) {
-            while ( countArr[i]-- > 0) {
-                newArr[j++] = i;
-            }
+        // 为改成稳定算法，采用累计数组
+        for (int i = 1; i < countArr.length; i++) {
+            countArr[i] = countArr[i] + countArr[i-1];
+        }
+
+        for (int i = arr.length -1; i >= 0 ; i--) {
+            newArr[--countArr[arr[i]]] = arr[i];
         }
         return newArr;
     }
