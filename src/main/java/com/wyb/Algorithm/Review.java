@@ -7,12 +7,12 @@ public class Review {
         // selectionTest(arr);
         // bubbleTest(arr);
         // insertionTest(arr);
-        printArr(arr);
-        System.out.println("------");
-        quickSort(arr, 0,arr.length-1);
-        printArr(arr);
+        // printArr(arr);
+        // System.out.println("------");
+        // quickSort(arr, 0,arr.length-1);
+        // printArr(arr);
 
-        // countSort(arr);
+        countSort(arr);
     }
 
     private static void selectionTest(int[] arr){
@@ -77,11 +77,14 @@ public class Review {
             countArr[arr[i]]++;
         }
 
-        for (int i = 0,j=0; i < countArr.length; i++) {
-            while (countArr[i]-- > 0) {
-                newArr[j++] = i;
-            }
+        for (int i = 1; i < countArr.length; i++) {
+            countArr[i] += countArr[i-1];
         }
+
+        for (int i = arr.length -1; i > 0; i--) {
+            newArr[--countArr[arr[i]]] = arr[i];
+        }
+
         printArr(newArr);
     }
 
