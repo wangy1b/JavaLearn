@@ -81,7 +81,7 @@ public class Review {
             countArr[i] += countArr[i-1];
         }
 
-        for (int i = arr.length -1; i > 0; i--) {
+        for (int i = arr.length -1; i >= 0; i--) {
             newArr[--countArr[arr[i]]] = arr[i];
         }
 
