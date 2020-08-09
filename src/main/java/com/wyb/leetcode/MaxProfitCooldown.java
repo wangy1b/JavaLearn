@@ -16,8 +16,12 @@ public class MaxProfitCooldown {
 
     public static void main(String[] args) {
         // int[] prices = {1,2,3,0,2};
-        int[] prices = {6,1,3,2,4,7};
-        System.out.println(maxProfitCooldown(prices));
+        // int[] prices = {6,1,3,2,4,7};
+        // System.out.println(maxProfitCooldown(prices));
+        // int[] prices = {4,2,1};
+        int[] prices = {6,1,6,4,3,0,2};
+        System.out.println(myMaxProfit(prices));
+        System.out.println(myMaxProfitMoreeffection(prices));
     }
 
 
@@ -103,6 +107,50 @@ public class MaxProfitCooldown {
             f2 = newf2;
         }
 
+        return Math.max(f1, f2);
+    }
+
+
+    private static int myMaxProfit(int[] prices) {
+        if (prices.length <=1 ) return 0;
+        int[][] f = new int[prices.length][3];
+        //持股
+        f[0][0] = -prices[0];
+        //不持股
+        f[0][1] = 0;
+        //冷冻期
+        f[0][2] = 0;
+        for(int i = 1; i<prices.length; i++) {
+            // 持股{昨天持股，今天还持股；昨天冷冻期，今天买了}
+            f[i][0] = Math.max(f[i-1][0],f[i-1][2] - prices[i]);
+            // 不持股{昨天不持股，今天还不持股；昨天持股，今天卖了}
+            f[i][1] = Math.max(f[i-1][1], f[i-1][0] + prices[i]);
+            // 冷冻期{昨天不持股，今天进入冷冻期}
+            f[i][2] = f[i-1][1];
+        }
+        return Math.max(f[prices.length-1][1], f[prices.length-1][2]);
+    }
+
+    private static int myMaxProfitMoreeffection(int[] prices) {
+        if (prices.length <=1 ) return 0;
+        int[][] f = new int[prices.length][3];
+        //持股
+        int f0 = -prices[0];
+        //不持股
+        int f1 = 0;
+        //冷冻期
+        int f2 = 0;
+        for(int i = 1; i<prices.length; i++) {
+            // 持股{昨天持股，今天还持股；昨天冷冻期，今天买了}
+            int nf0 = Math.max(f0, f2 - prices[i]);
+            // 不持股{昨天不持股，今天还不持股；昨天持股，今天卖了}
+            int nf1 = Math.max(f1, f0 + prices[i]);
+            // 冷冻期{昨天不持股，今天进入冷冻期}
+            int nf2 = f1;
+            f0 = nf0;
+            f1 = nf1;
+            f2 = nf2;
+        }
         return Math.max(f1, f2);
     }
 }
