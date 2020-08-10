@@ -1,4 +1,5 @@
 package com.wyb.leetcode;
+
 /*
 
 给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。
@@ -12,16 +13,16 @@ package com.wyb.leetcode;
 public class MaxProfitBestTime {
 
     public static void main(String[] args) {
-        int[] prices = {3,2,6,5,0,3};
-        System.out.println(maxProfit(2,prices));
+        int[] prices = {3, 2, 6, 5, 0, 3};
+        System.out.println(maxProfit(2, prices));
     }
 
     private static int maxProfit(int k, int[] prices) {
-        if ((prices.length <= 1) || (k <= 1) ) return 0;
+        if ((prices.length <= 1) || (k <= 1)) return 0;
 
 
         // k 超过了上限，也就变成了 无限次交易问题
-        if(k > prices.length /2) {
+        if (k > prices.length / 2) {
             int res = 0;
             for (int i = 1; i < prices.length; i++) {
                 if (prices[i] > prices[i - 1]) {
@@ -32,7 +33,7 @@ public class MaxProfitBestTime {
         }
 
         // 状态定义
-        int [][] dp = new int[k][2];
+        int[][] dp = new int[k][2];
 
         // 初始化
         for (int i = 0; i < k; i++) {
@@ -54,5 +55,5 @@ public class MaxProfitBestTime {
             }
         }
         return dp[k - 1][1];
-        }
+    }
 }
