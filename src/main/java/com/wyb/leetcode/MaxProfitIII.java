@@ -17,8 +17,8 @@ public class MaxProfitIII {
 
         // int[] prices = {7, 1, 5, 3, 4, 6};
         // int[] prices = {3, 3, 5, 0, 0, 3, 1, 4};
-        // int[] prices = {1,2,3,4,5};
-        int[] prices = {6,1,3,2,4,7};
+        int[] prices = {1,2,3,4,5};
+        // int[] prices = {6,1,3,2,4,7};
         System.out.println(maxProfitIII(prices));
         // maxProfitIII(prices);
 
@@ -26,32 +26,20 @@ public class MaxProfitIII {
 
 
     private static int maxProfitIII(int[] prices) {
-
-        int i = 0;
-        int valley = 0;
-        int peak = 0;
-        int temp = 0;
-        int high = 0;
-        int senior = 0;
-        while (i < prices.length - 1) {
-            while (i < prices.length - 1 && prices[i] >= prices[i + 1])
-                i++;
-            valley = prices[i];
-            System.out.println("valley : " + i);
-            while (i < prices.length - 1 && prices[i] <= prices[i + 1])
-                i++;
-            peak = prices[i];
-            System.out.println("peak : " + i);
-
-            temp = peak - valley;
-            high = Math.max(temp, high);
+        if (prices.length <=1 ) return 0;
+        // 持有（昨天持有，今天也持有；昨天不持有，今天买入）
+        int fstBuy = Integer.MIN_VALUE ;// 第一次持有不需要带入前面结果
+        int secBuy = Integer.MIN_VALUE;
+        // 不持有（昨天不持有，今天也不持有；昨天持有，今天卖出）
+        int fstSell = 0 ;
+        int secSell = 0;
+        for(int i = 0; i < prices.length; i++) {
+            fstBuy = Math.max(fstBuy, - prices[i]);
+            fstSell = Math.max(fstSell, fstBuy + prices[i]);
+            secBuy = Math.max(secBuy, fstSell - prices[i]);
+            secSell = Math.max(secSell, secBuy + prices[i]);
         }
-
-        System.out.println("senior = "+ senior);
-        System.out.println("high = "+ high);
-
-
-        return senior + high;
+        return secSell;
     }
 
 
