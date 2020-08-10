@@ -18,7 +18,7 @@ public class MaxProfitBestTime {
     }
 
     private static int maxProfit(int k, int[] prices) {
-        if ((prices.length <= 1) || (k <= 1)) return 0;
+        if ((prices.length <= 1) || (k < 1)) return 0;
 
 
         // k 超过了上限，也就变成了 无限次交易问题
