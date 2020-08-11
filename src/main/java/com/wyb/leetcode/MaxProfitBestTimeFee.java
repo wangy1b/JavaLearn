@@ -11,4 +11,23 @@ package com.wyb.leetcode;
 
  */
 public class MaxProfitBestTimeFee {
+    public static void main(String[] args) {
+        int[] prices = {1, 3, 2, 8, 4, 9};
+        int fee = 2;
+        System.out.println(maxProfit(prices, fee));
+    }
+
+    private static int maxProfit(int[] prices, int fee) {
+        if (prices.length <=1) return 0;
+        int buy  = -prices[0];
+        int sell = 0;
+        for (int i = 1; i < prices.length; i++) {
+            int nbuy = Math.max(buy, sell - prices[i]);
+            int nsell = Math.max(sell, nbuy + prices[i] - fee);
+            buy = nbuy;
+            sell = nsell;
+        }
+        // return Math.max(buy,sell);
+        return sell;
+    }
 }
