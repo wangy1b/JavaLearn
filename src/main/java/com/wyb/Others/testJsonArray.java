@@ -42,13 +42,13 @@ public class testJsonArray {
     public  void test() {
 
 //            String a = "[20180117,4402,27,5428505,8532298,5398490,96,\"137105,111\",20181023,0.000,1.000,0.000,32.900,32.900,1.000,\"2018-10-26 01:24:50.383\",181026004618618,20.4000,201801,28.120]";
-//            List<String> test = expStr(a);
-//            System.out.println(test);
-////            test.forEach(System.out.println(_));
-//            test.forEach(t -> System.out.println(t));
+//            List<String> CountSort = expStr(a);
+//            System.out.println(CountSort);
+////            CountSort.forEach(System.out.println(_));
+//            CountSort.forEach(t -> System.out.println(t));
 
 
-        String filename = "C:\\Users\\32006\\IdeaProjects\\test\\src\\main\\resources\\ps_002_test.csv";
+        String filename = "C:\\Users\\32006\\IdeaProjects\\CountSort\\src\\main\\resources\\ps_002_test.csv";
 
         File file = new File(filename);
         BufferedReader reader = null;
@@ -62,7 +62,7 @@ public class testJsonArray {
                 // 显示行号
                 System.out.println("line " + line + ": " + tempString);
                 List<String> test = expStr(tempString);
-//                    test.forEach(t -> System.out.println(t));
+//                    CountSort.forEach(t -> System.out.println(t));
                 line++;
                 if ( line > 2 ) {
                     break;
@@ -84,8 +84,8 @@ public class testJsonArray {
 //            String data = readFile(new File(filename));
 //            System.out.println(data);
 //
-//            List<String> test = expStr(data.trim());
-//            test.forEach(t -> System.out.println(t));
+//            List<String> CountSort = expStr(data.trim());
+//            CountSort.forEach(t -> System.out.println(t));
 
 
 
