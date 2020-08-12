@@ -27,14 +27,18 @@ public class MinDepth {
     public static void main(String[] args) {
         // TreeNode treeNode = new TreeNode(3,new TreeNode(9),new TreeNode(20,new TreeNode(15),new TreeNode(7)));
         // TreeNode treeNode = new TreeNode(1);
-        TreeNode treeNode = new TreeNode(1,new TreeNode(2),null);
+        TreeNode treeNode = new TreeNode(1, new TreeNode(2), null);
         System.out.println(minDepth(treeNode));
     }
 
-    // todo meidong
+    // meidong 最小深度是从根节点到最近叶子节点的最短路径上的节点数量
     private static int minDepth(TreeNode root) {
         if (root == null) return 0;
-        return Math.min(minDepth(root.left),minDepth(root.right))+1;
+        // null节点不参与比较
+        if (root.left == null && root.right != null) return 1 + minDepth(root.right);
+        if (root.left != null && root.right == null) return 1 + minDepth(root.left);
+
+        return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
     }
 
     // * Definition for a binary tree node.
@@ -42,7 +46,11 @@ public class MinDepth {
         int val;
         TreeNode left;
         TreeNode right;
-        TreeNode(int x) { val = x; }
+
+        TreeNode(int x) {
+            val = x;
+        }
+
         TreeNode(int x, TreeNode left, TreeNode right) {
             this.val = x;
             this.left = left;
