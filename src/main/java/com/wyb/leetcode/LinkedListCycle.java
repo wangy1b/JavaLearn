@@ -44,7 +44,7 @@ public class LinkedListCycle {
 
 
     }
-    // todo 超出时间限制
+
     private static boolean hasCycle(ListNode head) {
         if (head == null || head.next == null) return false;
 
