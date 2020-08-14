@@ -35,19 +35,28 @@ package com.wyb.leetcode;
  */
 public class LinkedListCycleII {
     public static void main(String[] args) {
-        ListNode listNode = new ListNode(1);
-        ListNode listNode1 = new ListNode(2);
-        ListNode listNode2 = new ListNode(3);
-        ListNode listNode3 = new ListNode(4);
-
-        listNode.next = listNode1;
-        listNode1.next = listNode2;
-        listNode2.next = listNode;
+        // ListNode listNode = new ListNode(1);
+        // ListNode listNode1 = new ListNode(2);
+        // ListNode listNode2 = new ListNode(3);
+        // ListNode listNode3 = new ListNode(4);
+        //
+        // listNode.next = listNode1;
+        // listNode1.next = listNode2;
         // listNode2.next = listNode3;
-        System.out.println(detectCycle(listNode).val);
+        // listNode3.next = listNode1;
+        // listNode2.next = listNode3;
+
+        // int[] nums = new int[]{1,2,3};
+        int[] nums = new int[]{-1,-7,7,-4,19,6,-9,-5,-2,-5};
+        GenerateArrayToListNode generateArrayToListNode= new GenerateArrayToListNode();
+        // ListNode listNode = generateArrayToListNode.GenerateArrayToListNode(nums);
+        ListNode listNode = generateArrayToListNode.GenerateArrayToListNode(nums,9);
+
+        // System.out.println(detectCycle(listNode).val);
+        System.out.println(detectCycleOfficial(listNode).val);
     }
 
-
+    // todo 超出时间限制
     public static ListNode detectCycle(ListNode head) {
         if (head == null || head.next == null) {
             return null;
@@ -65,17 +74,64 @@ public class LinkedListCycleII {
 
         boolean f = true;
         while( f ) {
-            while (fast.next != null && f) {
-                if( head.val != fast.val) {
+            while (fast.next != null && f ) {
+                if( head != fast) {
                     fast = fast.next;
                 }
                 else f = false;
+                if ( slow == fast) break;
             }
             if (f) head = head.next;
         }
 
         return head;
     }
+
+
+
+    private static ListNode getIntersect(ListNode head) {
+        ListNode tortoise = head;
+        ListNode hare = head;
+
+        // A fast pointer will either loop around a cycle and meet the slow
+        // pointer or reach the `null` at the end of a non-cyclic list.
+        while (hare != null && hare.next != null) {
+            tortoise = tortoise.next;
+            hare = hare.next.next;
+            if (tortoise == hare) {
+                return tortoise;
+            }
+        }
+
+        return null;
+    }
+
+    public static ListNode detectCycleOfficial(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        // If there is a cycle, the fast/slow pointers will intersect at some
+        // node. Otherwise, there is no cycle, so we cannot find an e***ance to
+        // a cycle.
+        ListNode intersect = getIntersect(head);
+        if (intersect == null) {
+            return null;
+        }
+
+        // To find the e***ance to the cycle, we have two pointers traverse at
+        // the same speed -- one from the front of the list, and the other from
+        // the point of intersection.
+        ListNode ptr1 = head;
+        ListNode ptr2 = intersect;
+        while (ptr1 != ptr2) {
+            ptr1 = ptr1.next;
+            ptr2 = ptr2.next;
+        }
+
+        return ptr1;
+    }
+
 
     // * Definition for singly-linked list.
     private static  class ListNode {
@@ -89,6 +145,34 @@ public class LinkedListCycleII {
             val = x;
 
             next = null;
+        }
+    }
+
+    private static class GenerateArrayToListNode{
+        ListNode GenerateArrayToListNode(int[] array) {
+            ListNode listNode = new ListNode(-1);
+            ListNode p = listNode;
+            for (int i = 0; i < array.length ; i++) {
+                p.next = new ListNode(array[i]);
+                p = p.next;
+            }
+            return listNode.next;
+        }
+
+        ListNode GenerateArrayToListNode(int[] array, int pos) {
+            ListNode listNode = new ListNode(Integer.MIN_VALUE);
+            ListNode p = listNode;
+            ListNode entrence = null;
+            for (int i = 0; i < array.length ; i++) {
+                p.next = new ListNode(array[i]);
+                p = p.next;
+                if (i == pos ) {
+                    entrence = p;
+                }
+
+            }
+            p.next = entrence;
+            return listNode.next;
         }
     }
 }
