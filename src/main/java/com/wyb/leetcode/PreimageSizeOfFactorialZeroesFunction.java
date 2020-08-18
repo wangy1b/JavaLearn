@@ -38,11 +38,44 @@ public class PreimageSizeOfFactorialZeroesFunction {
         }
         return zeroCount;
     }
+
+
+    // 递归内存占用更小
+    private static long zeta(long x) {
+        if (x == 0) return 0;
+        return x/5 + zeta(x/5);
+    }
+
+
+
+    /*
+
+    二分查找【通过】
+思路和算法
+
+令 zeta(x) 为 x! 末尾零的个数。如果 x! 可以分解为素数的乘积，如 的形式，那么 x! 末尾零的个数为 min(a, b) = b。
+
+zeta(x) 就是 x 除以 5 的次数之和，即 zeta(x) 等于
+
+可以看出，zeta(x) 是一个单调递增函数，因此可以使用二分查找求解。
+
+使用二分查找找出满足 zeta(x) = K 的最大 x 和最小 x。
+由于一定存在 zeta(5a-1) < zeta(5a) = zeta(5a+1) = zeta(5a+2) = zeta(5a+3) = zeta(5a+4) < zeta(5a+5)，
+即如果存在某个 x 使得 zeta(x) = K，那么一定存在连续 5 个数的阶乘末尾零的个数都为 K；
+如果不存在这样的 x，那么阶乘末尾零的个数为 K 的数字只有 0 个。
+
+作者：LeetCode
+链接：https://leetcode-cn.com/problems/preimage-size-of-factorial-zeroes-function/solution/jie-cheng-han-shu-hou-kge-ling-by-leetcode/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+     */
     private static int preimageSizeFZF(long K) {
         long lo = K, hi = 10*K + 1;
         while (lo < hi) {
             long mi = lo + (hi - lo) / 2;
-            long zmi = trailingZeroes(mi);
+            // long zmi = trailingZeroes(mi);
+            long zmi = zeta(mi);
             if (zmi == K) {
                 return 5;
             }
