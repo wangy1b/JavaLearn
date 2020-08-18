@@ -4,16 +4,19 @@ import java.util.*;
 
 public class IntersectionOfTwoLinkedLists {
     public static void main(String[] args) {
-        int[] nums1 = {4,1,8,4,5};
+        // int[] nums1 = {4,1,8,4,5};
+        int[] nums1 = {3};
         ListNode listNode1 = generateListNode(nums1);
         System.out.println("listNode1 : " + listNode1.toString());
 
-        int[] nums2 = {5,0,1,8,4,5};
+        // int[] nums2 = {5,0,1,8,4,5};
+        int[] nums2 = {2,3};
         ListNode listNode2 = generateListNode(nums2);
         System.out.println("listNode2 : " + listNode2.toString());
 
         // ListNode intersectionNode = getIntersectionNode1(listNode1,listNode2);
-        ListNode intersectionNode = getIntersectionNode2(listNode1,listNode2);
+        // ListNode intersectionNode = getIntersectionNode2(listNode1,listNode2);
+        ListNode intersectionNode = getIntersectionNode3(listNode1,listNode2);
         System.out.println("intersectionNode : " + intersectionNode.toString());
 
     }
@@ -59,6 +62,7 @@ public class IntersectionOfTwoLinkedLists {
         }
 
         while (headB != null) {
+            // contains 方法在这不能正常使用
             if (visited.contains(headB)) {
                 return headB;
             }
@@ -81,9 +85,26 @@ public class IntersectionOfTwoLinkedLists {
     复杂度分析
     时间复杂度 : O(m+n)。
     空间复杂度 : O(1)。
-
-
      */
+
+    private static ListNode getIntersectionNode3(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
+        ListNode pA = headA;
+        ListNode pB = headB;
+        while (true){
+            // if (pA == pB) {
+            if (pA.equals(pB)) {
+                return pA;
+            }
+
+            pA =  pA.next == null ? headB : pA.next;
+            pB =  pB.next == null ? headA : pB.next;
+
+            if (pA == headB && pB == headA) return null;
+
+        }
+    }
+
 
     // * Definition for singly-linked list.
     private static class ListNode {
@@ -117,6 +138,7 @@ public class IntersectionOfTwoLinkedLists {
 
         private boolean isEquals(ListNode l, ListNode c) {
             if (l == null && c == null) return true;
+            if (l == null || c == null) return false;
             if (l.val == c.val) {
                 return isEquals(l.next, c.next);
             }
