@@ -27,24 +27,33 @@ K是范围在 [0, 10^9] 的整数。
  */
 public class PreimageSizeOfFactorialZeroesFunction {
     public static void main(String[] args) {
-        System.out.println(countDigitOne(5));
+        System.out.println(preimageSizeFZF(1000000000));
     }
 
-    private static int trailingZeroes(int n) {
-        int zeroCount = 0;
+    private static long trailingZeroes(long n) {
+        long zeroCount = 0;
         while (n > 0) {
             n /= 5;
             zeroCount += n;
         }
         return zeroCount;
     }
-    private static int countDigitOne(int n) {
-        int cnt = 0;
-        for (int i = 0; i < 1000; i++) {
-            if (trailingZeroes(i) == n ) {
-                cnt++;
-            };
+    private static int preimageSizeFZF(long K) {
+        long lo = K, hi = 10*K + 1;
+        while (lo < hi) {
+            long mi = lo + (hi - lo) / 2;
+            long zmi = trailingZeroes(mi);
+            if (zmi == K) {
+                return 5;
+            }
+            else if (zmi < K) {
+                lo = mi + 1;
+                }
+            else {
+                hi = mi;
+                }
         }
-        return cnt;
+        return 0;
     }
+
 }
