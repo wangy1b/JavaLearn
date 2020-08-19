@@ -27,7 +27,8 @@ K是范围在 [0, 10^9] 的整数。
  */
 public class PreimageSizeOfFactorialZeroesFunction {
     public static void main(String[] args) {
-        System.out.println(preimageSizeFZF(1000000000));
+        // System.out.println(preimageSizeFZF(1000000000));
+        System.out.println(preimageSizeFZF1(1000000000));
     }
 
     private static long trailingZeroes(long n) {
@@ -87,6 +88,30 @@ zeta(x) 就是 x 除以 5 的次数之和，即 zeta(x) 等于
                 }
         }
         return 0;
+    }
+
+    // unkonwn wrong
+    public  static int preimageSizeFZF1(int K) {
+        long high = 10 * K + 1;
+        long low = K;
+        while(low < high) {
+            // long mid = (high + low)/2;
+            long mid = low + (high - low)/2;
+            long f = findZero(mid);
+            if (f == K) {
+                return 5;
+            } else if ( f < K) {
+                low = mid + 1;
+            } else {
+                high = mid ;
+            }
+        }
+        return 0;
+    }
+
+    private static long findZero(long n){
+        if (n ==0 ) return 0;
+        return n/5 + findZero(n/5);
     }
 
 }
