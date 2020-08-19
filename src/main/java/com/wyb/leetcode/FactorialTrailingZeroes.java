@@ -209,5 +209,11 @@ public class FactorialTrailingZeroes {
         return zeroCount;
     }
 
+
+    private static int trailingZeroes4Efficient(int n) {
+        if (n == 0 ) return 0;
+        return n/5 + trailingZeroes4Efficient(n/5);
+    }
+
 }
 
