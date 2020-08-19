@@ -18,10 +18,15 @@ package com.wyb.leetcode;
  */
 public class NumberOfDigitOne {
     public static void main(String[] args) {
-
+        System.out.println(countDigitOne(13));
     }
-
+    // buhui
     private static int countDigitOne(int n) {
-        return 0;
+        int count = 0;
+        for (long i = 1; i <= n; i *= 10) {
+            long divider = i * 10;
+            count += (n / divider) * i + Math.min(Math.max(n % divider - i + 1, 0L), i);
+        }
+        return count;
     }
 }
