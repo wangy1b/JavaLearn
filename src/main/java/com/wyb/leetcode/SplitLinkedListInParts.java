@@ -1,4 +1,5 @@
 package com.wyb.leetcode;
+
 /*
 725. 分隔链表
 
@@ -45,26 +46,31 @@ k 的取值范围： [1, 50].
 public class SplitLinkedListInParts {
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        int k = 3;
+        int k = 4;
+
+        // int[] nums = {1, 2, 3, 4};
+        // int k = 5;
         ListNode listNode = ListNode.generateListNode(nums);
-        splitListToParts(listNode,k);
+        ListNode[] res = splitListToParts(listNode, k);
+        for (ListNode re : res) {
+            ListNode.printListNode(re);
+        }
 
     }
-
 
 
     private static ListNode[] splitListToParts(ListNode root, int k) {
         ListNode[] res = new ListNode[k];
         int len = 0;
         ListNode p = root;
-        while ( p != null) {
+        while (p != null) {
             p = p.next;
-            len ++;
+            len++;
         }
         int avg = len / k;
         int reminder = len % k;
         int maxSize = avg, maxCnt = k, minSize = 0, minCnt = 0;
-        if (reminder > 0 ){
+        if (reminder > 0) {
             maxSize = avg + 1;
             maxCnt = reminder;
             minSize = avg;
@@ -75,32 +81,31 @@ public class SplitLinkedListInParts {
         int[] nums_res = new int[k];
         int temp = 0;
         for (int i = 1; i <= k; i++) {
-            if ( i <= maxCnt) {
+            if (i <= maxCnt) {
                 temp = i * maxSize - 1;
             } else {
-                temp = maxCnt * maxSize + (i - maxCnt) * minSize -1 ;
-                temp = temp > len -1 ? len - 1 : temp;
+                temp = maxCnt * maxSize + (i - maxCnt) * minSize - 1;
+                temp = temp > len - 1 ? len - 1 : temp;
             }
-            nums_res[i-1] = temp ;
+            nums_res[i - 1] = temp;
         }
 
         // todo
         p = root;
-        ListNode q = p;
         for (int i = 0, j = 0; i < len; i++) {
-            if (i > nums_res[j] ) {
-                j++;
+            ListNode head = root;
+            if (i == nums_res[j]) {
+                // 这个地方累进保留测了半天，还没搞懂
+                res[j] = head;
+                ListNode q = p;
+                p = p.next;
                 q.next = null;
-                res[i] = root;
+                j++;
+                root = p;
+                continue;
             }
-            System.out.println("box : " + j);
-
             p = p.next;
         }
-
-
-
-
         return res;
     }
 }
