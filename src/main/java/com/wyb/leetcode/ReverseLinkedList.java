@@ -12,6 +12,7 @@ package com.wyb.leetcode;
 进阶:
 你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
 
+https://leetcode-cn.com/problems/reverse-linked-list/
  */
 public class ReverseLinkedList {
     public static void main(String[] args) {
