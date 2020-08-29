@@ -65,6 +65,7 @@ public class BinaryTreePreorderTraversal {
 
         stack.add(root);
         while (!stack.isEmpty()) {
+            // removes the last element of this list
             TreeNode node = stack.pollLast();
             output.add(node.val);
             if (node.right != null) {
@@ -77,7 +78,7 @@ public class BinaryTreePreorderTraversal {
         return output;
     }
 
-    // todo queue + list
+    // queue + list
     private static List<Integer> preorderTraversal11(TreeNode root) {
         LinkedList<TreeNode> queue = new LinkedList<>();
         LinkedList<Integer> output = new LinkedList<>();
@@ -87,13 +88,15 @@ public class BinaryTreePreorderTraversal {
 
         queue.add(root);
         while (!queue.isEmpty()) {
-            TreeNode node = queue.remove();
+            // removes the head (first element) of this list
+            TreeNode node = queue.removeFirst();
             output.add(node.val);
-            if (node.left != null) {
-                queue.add(node.left);
-            }
             if (node.right != null) {
-                queue.add(node.right);
+                //Inserts the specified element at the beginning of this list.
+                queue.addFirst(node.right);
+            }
+            if (node.left != null) {
+                queue.addFirst(node.left);
             }
 
         }
