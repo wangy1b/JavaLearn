@@ -20,4 +20,14 @@ public class TreeNode {
         this.right = right;
     }
 
+    //todo generateTree
+    private TreeNode transArrayToTree(int[] nums) {
+
+        TreeNode root = new TreeNode(nums[0]);
+        for (int i = 0,level = 0; i < nums.length; i++) {
+
+        }
+        return root;
+    }
+
 }
