@@ -47,7 +47,8 @@ public class PathSumII {
                                                 ,new TreeNode(1)))
         );
 
-        System.out.println(pathSum(treeNode,22));
+        // System.out.println(pathSum(treeNode,22));
+        System.out.println(pathSumII(treeNode,22));
     }
 
     // todo bfs
@@ -94,4 +95,46 @@ public class PathSumII {
 
         return res;
     }
+
+
+    /*
+
+    此题在112题上，有以下两点变化：
+
+    要返回成功路径；
+    此问题只需传入一个list，递归同时记录路径；
+    有多条成功路径；
+    此问题只需全盘遍历即可，而不是有一个结果即返回；
+
+    作者：lonepwq
+    链接：https://leetcode-cn.com/problems/path-sum-ii/solution/java-dfsdi-gui-yi-dong-10000-by-lonepwq/
+    来源：力扣（LeetCode）
+    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+     */
+
+    // 全局变量来获取所有的结果路径
+    static List<List<Integer>> res = new ArrayList();
+
+    private static List<List<Integer>> pathSumII(TreeNode root, int sum) {
+        LinkedList<Integer> temp = new LinkedList<>();// 定义一个有序list来存储路径
+        helper(root, sum, temp);
+        return res;
+    }
+
+    private static void helper(TreeNode node, int sum, LinkedList<Integer> temp) {
+        if (node == null) {
+            return;
+        }
+        // 记录路径
+        temp.addLast(node.val);
+        if (node.left == null && node.right == null && sum == node.val) {
+            res.add(new ArrayList(temp));
+        }
+        helper(node.left, sum - node.val, temp);
+        helper(node.right, sum - node.val, temp);
+        // 重点，遍历完后，需要把当前节点remove出去，因为用的是同一个list对象来存所有的路径
+        temp.removeLast();
+    }
+
 }
