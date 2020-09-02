@@ -39,7 +39,7 @@ public class SecondMinimumNodeInABinaryTree {
 
         TreeNode treeNode = new TreeNode(
                 2
-                , new TreeNode(2)
+                , new TreeNode(2, new TreeNode(2), new TreeNode(4))
                 , new TreeNode(5
                                 , new TreeNode(5)
                                 , new TreeNode(7)
@@ -51,15 +51,20 @@ public class SecondMinimumNodeInABinaryTree {
 
 
     private static int findSecondMinimumValue(TreeNode root) {
-        int sec = -1;
-        if (root != null){
-            if (root.left.val > root.right.val) {
-                sec = root.left.val;
-            }else if (root.left.val < root.right.val) {
-                sec = root.right.val;
-            }
+        if (root == null) {
+            return -1;
         }
-        return sec;
+        return helper(root, root.val);
     }
 
+    private static int helper(TreeNode root, int min) {
+        if (root == null) return -1;
+        if (root.val > min) return root.val;
+        int left = helper(root.left, min);
+        int right = helper(root.right, min);
+        if (left == -1) return right;
+        if (right == -1) return left;
+        return Math.min(left, right);
+
+    }
 }
