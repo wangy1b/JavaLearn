@@ -2,9 +2,7 @@ package com.wyb.leetcode;
 
 import javafx.scene.control.ListCell;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /*
 
@@ -52,16 +50,25 @@ public class PathSumIII {
 
     }
 
-    // TODO: 2020/9/4 not finished
+    // 遍历一遍，从每个节点调一遍helper
     private static int pathSum(TreeNode root, int sum) {
-        // List res = new ArrayList<>();
-
-        helper(root,sum);
+        Queue<TreeNode> queue = new LinkedList();
+        queue.add(root);
+        TreeNode node = root;
+        while (node != null && queue.size() > 0) {
+            int size = queue.size();
+            while (size-- > 0) {
+                node = queue.poll();
+                helper(node,sum);
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+        }
         return cnt;
     }
     static int cnt = 0;
-    // static List<List<Integer>> res = new ArrayList();
 
+    // 从当前节点出发，找到符合目标路径的个数
     private static void helper(TreeNode node,int target){
         if (node == null) return;
         if (node.val == target) {
