@@ -29,31 +29,36 @@ public class SerializeAndDeserializeBst {
 
         给定二叉树
 
-          1
+          4
          / \
         2   5
        / \   \
-      3   4   6
+      1   3   6
 
          */
         TreeNode treeNode = new TreeNode(
-                1
+                4
                 ,new TreeNode(2
+                            ,new TreeNode(1)
                             ,new TreeNode(3)
-                            ,new TreeNode(4)
                             )
-                ,new TreeNode(5,new TreeNode(4),new TreeNode(6))
+                ,new TreeNode(5,null, new TreeNode(6))
         );
 
+        // System.out.println(serialize(treeNode));
+        // TreeNode res = deserialize(serialize(null));
 
-        System.out.println(serialize(treeNode));
-        TreeNode res = deserialize(serialize(treeNode));
+
+        System.out.println(serialize2(treeNode));
+        TreeNode res2 = deserialize2(serialize2(treeNode));
     }
 
     // Encodes a tree to a single string.
     private static String serialize(TreeNode root) {
+        if (root == null) return "";
         StringBuffer res = new StringBuffer();
         helper(root,res);
+        // 删除最后一个空格
         return res.deleteCharAt(res.length()-1).toString();
     }
     // 后序遍历
@@ -96,4 +101,49 @@ public class SerializeAndDeserializeBst {
     }
 
 
+
+    // 因为所有节点的值为 4 个字节，因此我们可以把编码序列 4 个字节当作一个块，将每个块转换为整数，因此可以不使用分隔符。
+    // Encodes integer to bytes string
+    private static String intToString(int x) {
+        char[] bytes = new char[4];
+        for(int i = 3; i > -1; --i) {
+            bytes[3 - i] = (char) (x >> (i * 8) & 0xff);
+        }
+        return new String(bytes);
+    }
+
+    // Decodes bytes string to integer
+    private static int stringToInt(String bytesStr) {
+        int result = 0;
+        for(char b : bytesStr.toCharArray()) {
+            result = (result << 8) + (int)b;
+        }
+        return result;
+    }
+
+    // Encodes a tree to a list.
+    private static void postorder(TreeNode root, StringBuilder sb) {
+        if (root == null) return;
+        postorder(root.left, sb);
+        postorder(root.right, sb);
+        sb.append(intToString(root.val));
+    }
+
+    // Encodes a tree to a single string.
+    private static String serialize2(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        postorder(root, sb);
+        return sb.toString();
+    }
+
+    private static TreeNode deserialize2(String data) {
+        if (data.isEmpty()) return null;
+        ArrayDeque<Integer> nums = new ArrayDeque<Integer>();
+        int n = data.length();
+        for(int i = 0; i < (int)(n / 4); ++i) {
+            nums.add(stringToInt(data.substring(4 * i, 4 * i + 4)));
+        }
+        return helper2(Integer.MIN_VALUE, Integer.MAX_VALUE, nums);
+
+    }
 }
