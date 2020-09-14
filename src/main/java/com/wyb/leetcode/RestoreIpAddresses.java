@@ -51,26 +51,42 @@ public class RestoreIpAddresses {
         String s = "25525511135";
         System.out.println(restoreIpAddresses(s));
     }
-    static StringBuffer stringBuffer = new StringBuffer();
     private static List<String> restoreIpAddresses(String s) {
-       helper(s,0,1,1);
-        return null;
-    }
+        List<String> res = new ArrayList<>();
+        StringBuffer tmp = new StringBuffer();
 
-    // TODO: 2020/9/11 not finished 
-    // 递归依次判断
-    private static void helper(String s,int start,int step,int times){
-        String str = s.substring(start,start+step);
-        if (step > 3) return;
-        if ((str.substring(1) == "0" && step > 1 )
-                || Integer.parseInt(str)>255
-                || (s.length() - start - step) > (4-times)*3
-                ){
-            step++;
-            helper( s,start,step,times);
+        for (int a = 1; a < 4; a++) {
+            for (int b = 1; b < 4; b++) {
+                for (int c = 1; c < 4; c++) {
+                    for (int d = 1; d < 4; d++) {
+
+                        if ( a + b + c +d == s.length() ) {
+                            int fst = Integer.parseInt(s.substring(0,a));
+                            int sec = Integer.parseInt(s.substring(a,a+b));
+                            int thd = Integer.parseInt(s.substring(a+b,a+b+c));
+                            int fth = Integer.parseInt(s.substring(a+b+c,a+b+c+d));
+
+                            if (fst < 256 && sec < 256 && thd < 256 && fth < 256) {
+                                tmp.append(fst).append(".").append(sec).append(".")
+                                        .append(thd).append(".").append(fth);
+
+                                if (tmp.length() == s.length() + 3) {
+                                    res.add(tmp.toString());
+                                }
+                                tmp.delete(0,tmp.length());
+
+                            }
+
+
+
+                        }
+
+
+                    }
+                }
+            }
         }
-        stringBuffer.append(str);
-        helper( s,start+step,1,times+1);
+        return res;
     }
 
     // 剪枝
