@@ -1,7 +1,9 @@
 package com.wyb.leetcode;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /*
 
@@ -48,7 +50,7 @@ public class UniqueBinarySearchTreesII {
         // preorder
         for (int mid = 1; mid <= n; mid++) {
             int l = mid, r = mid;
-            while (r <= n) {
+            while (r <= n|| l>0) {
                 TreeNode tmp = new TreeNode(mid);
                 // left
                 helper(tmp, 1, --l, mid);
@@ -78,8 +80,8 @@ public class UniqueBinarySearchTreesII {
         if (start > end || start < 0) return;
 
         if (root.val > end) { // 左边
-            root.left = new TreeNode(start);
-            helper(root.left, start + 1, end, mid);
+            root.left = new TreeNode(end);
+            helper(root.left, start , end-1, mid);
         } else if (root.val < start) { // 右边
             root.right = new TreeNode(start);
             helper(root.right, start + 1, end, mid);
