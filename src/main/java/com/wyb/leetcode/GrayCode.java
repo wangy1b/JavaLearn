@@ -44,9 +44,10 @@ https://leetcode-cn.com/problems/gray-code/
 public class GrayCode {
 
     public static void main(String[] args) {
-        int n = 10;
+        int n = 4;
         // System.out.println(grayCode(n));
-        List<Integer> list = grayCode(n);
+        // List<Integer> list = grayCode(n);
+        List<Integer> list = grayCode1(n);
         // System.out.println(list);
         printFmt(list, n);
     }
@@ -85,5 +86,38 @@ public class GrayCode {
                 res = s.substring(len - n,len);
             System.out.println(  res  +" : " + l);
         }
+    }
+
+
+    /*
+
+    关键是要找到规律
+    n = 0, [0]
+    n = 1, [0,1] //新的元素1，为0+2^0
+    n = 2, [0,1,3,2] // 新的元素[3,2]为[0,1]->[1,0]后分别加上2^1
+    n = 3, [0,1,3,2,6,7,5,4] // 新的元素[6,7,5,4]为[0,1,3,2]->[2,3,1,0]后分别加上2^2->[6,7,5,4]
+
+    作者：chengm15
+    链接：https://leetcode-cn.com/problems/gray-code/solution/zhi-xing-yong-shi-nei-cun-xiao-hao-ji-bai-liao-1-5/
+    来源：力扣（LeetCode）
+    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+     */
+
+    private static List<Integer> grayCode1(int n) {
+        ArrayList<Integer> res = new ArrayList<>();
+        int shift = 1;
+        while(n >= 0){
+            if(res.size() == 0){
+                res.add(0);
+            }else{
+                for(int i = shift-1; i >= 0; --i){
+                    res.add(res.get(i) + shift);
+                }
+                shift *= 2;
+            }
+            --n;
+        }
+        return res;
     }
 }
