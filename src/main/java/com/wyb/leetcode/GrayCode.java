@@ -52,7 +52,7 @@ public class GrayCode {
         printFmt(list, n);
     }
 
-    // todo 生成的只是子集,需要求最大子集
+    // not finished
     private static List<Integer> grayCode(int n) {
         ArrayList<Integer> res = new ArrayList<>();
         if (n == 0) {
