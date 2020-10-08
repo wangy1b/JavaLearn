@@ -1,6 +1,7 @@
 package com.wyb.leetcode;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /*
@@ -38,20 +39,26 @@ https://leetcode-cn.com/problems/word-search/
  */
 public class WordSearch {
     static int[] pos = {0, 0};
-    static List posArr = new ArrayList<int[]>();
+    static LinkedList<int[]> posArr = new LinkedList<int[]>();
 
     public static void main(String[] args) {
         char[][] board = new char[][]{
                 {'A', 'B', 'C', 'E'},
                 {'S', 'F', 'C', 'S'},
                 {'A', 'D', 'E', 'E'}};
-        String word = "ABCCED";
+        String word = "SEE";
         System.out.println(exist(board, word));
+        System.out.println("check result:");
+        for (int i = 0; i < posArr.size(); i++) {
+            int x = posArr.get(i)[0];
+            int y = posArr.get(i)[1];
+            System.out.println("index: (" + x +","+ y + ") value: " + board[x][y]);
+        }
 
     }
 
-    // TODO: 2020/9/29 not finished
     private static boolean exist(char[][] board, String word) {
+        boolean res = false;
         int len = word.length();
         if (len == 0) {
             return false;
@@ -59,27 +66,32 @@ public class WordSearch {
 
         for (int j = 0; j < board.length; j++) {
             for (int k = 0; k < board[j].length; k++) {
-
+                //
+                pos[0] = j;
+                pos[1] = k;
+                posArr.clear();
+                System.out.println("start at ("+ pos[0] + ","+ pos[1]+")");
                 // 遍历字符串
                 for (int i = 0; i < len - 1; i++) {
                     char cw = word.charAt(i);
                     char nw = word.charAt(i + 1);
-                    //
-                    pos[0] = j;
-                    pos[1] = k;
-                    char str = board[j][k];
+
+                    char str = board[pos[0]][pos[1]];
                     if (str == cw) {
                         // 当前二维网格的位置周围是否存在单个单词nw
                         boolean tmp = helper(board, nw, pos);
                         if (!tmp) break;
+                        posArr.add(new int[]{pos[0],pos[1]});
+                    }
+
+                    if ( posArr.size() == word.length()-1) {
+                        posArr.addFirst(new int[]{j,k});
+                        return true;
                     }
                 }
             }
-
-
         }
-        return posArr.size() == word.length();
-
+        return res;
     }
 
     // 当前二维网格board的位置idx周围是否存在cw单个单词
@@ -88,6 +100,7 @@ public class WordSearch {
         int i = idx[0];
         int j = idx[1];
         //上下横移一步
+        // TODO: 2020/10/8 如果上下移动一步的单词是一样的，该怎么处理？
         for (int k = 1; k <= 2; k++) {
             int newi = i + (int) Math.pow(-1, k);
             if ((newi >= 0 && newi < board.length)
@@ -95,7 +108,7 @@ public class WordSearch {
                 res = true;
                 pos[0] = newi;
                 pos[1] = j;
-                posArr.add(res);
+                if (res) return res;
             }
         }
         //左右横移一步
@@ -106,7 +119,7 @@ public class WordSearch {
                 res = true;
                 pos[0] = i;
                 pos[1] = newj;
-                posArr.add(res);
+                if (res) return res;
             }
         }
         return res;
