@@ -53,7 +53,7 @@ public class WordSearch {
         for (int i = 0; i < posArr.size(); i++) {
             int x = posArr.get(i)[0];
             int y = posArr.get(i)[1];
-            System.out.println("index: (" + x +","+ y + ") value: " + board[x][y]);
+            System.out.println("index: (" + x + "," + y + ") value: " + board[x][y]);
         }
 
     }
@@ -71,7 +71,7 @@ public class WordSearch {
                 pos[0] = j;
                 pos[1] = k;
                 posArr.clear();
-                System.out.println("start at ("+ pos[0] + ","+ pos[1]+")");
+                System.out.println("start at (" + pos[0] + "," + pos[1] + ")");
                 // 遍历字符串
                 for (int i = 0; i < len - 1; i++) {
                     char cw = word.charAt(i);
@@ -82,11 +82,11 @@ public class WordSearch {
                         // 当前二维网格的位置周围是否存在单个单词nw
                         boolean tmp = helper(board, nw, pos);
                         if (!tmp) break;
-                        posArr.add(new int[]{pos[0],pos[1]});
+                        posArr.add(new int[]{pos[0], pos[1]});
                     }
 
-                    if ( posArr.size() == word.length()-1) {
-                        posArr.addFirst(new int[]{j,k});
+                    if (posArr.size() == word.length() - 1) {
+                        posArr.addFirst(new int[]{j, k});
                         return true;
                     }
                 }
@@ -182,7 +182,7 @@ public class WordSearch {
         // 当board中位置的字母和字符串中选取的不同时，返回false
         if (board[i][j] != s.charAt(k)) {
             return false;
-        // 当访问到字符串最后的时候，返回true
+            // 当访问到字符串最后的时候，返回true
         } else if (k == s.length() - 1) {
             return true;
         }
@@ -211,7 +211,6 @@ public class WordSearch {
         visited[i][j] = false;
         return result;
     }
-
 
 
 }
