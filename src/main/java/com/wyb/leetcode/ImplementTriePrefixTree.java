@@ -68,6 +68,12 @@ public class ImplementTriePrefixTree {
         Trie root = new Trie();
 
         // build Trie
+        buildTrie(words,root);
+
+        System.out.println("aa");
+    }
+
+    private static void buildTrie(String[] words,Trie root){
         for(int i = 0;i<words.length;i++) {
             Trie node = root;
             String wd = words[i];
@@ -83,7 +89,6 @@ public class ImplementTriePrefixTree {
             node.word = wd;
         }
 
-        System.out.println("aa");
     }
 
 }
