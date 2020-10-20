@@ -30,14 +30,17 @@ public class KthLargestElementInAnArray {
         // int[] nums = {3,2,1,5,6,4};
         int[] nums = {3, 2, 3, 1, 2, 4, 5, 5, 6};
         // int res = findKthLargest(nums,4);
-        // System.out.println("res : " + res);
+        // int res = findKthLargestOfficial2(nums,4);
+        // int res = findKthLargestOfficialtest(nums,4);
+        int res = findKthLargestOfficialtest2(nums,4);
+        System.out.println("res : " + res);
         // BubbleSort(nums);
         // InsertionSort(nums);
-        SelectionSort(nums);
-        for (int i = 0; i < nums.length; i++) {
-            System.out.print(nums[i] + " ");
-        }
-        System.out.println();
+        // SelectionSort(nums);
+        // for (int i = 0; i < nums.length; i++) {
+        //     System.out.print(nums[i] + " ");
+        // }
+        // System.out.println();
     }
 
     private static int findKthLargest(int[] nums, int k) {
@@ -180,7 +183,7 @@ public class KthLargestElementInAnArray {
 
      */
 
-    public int findKthLargestOfficial2(int[] nums, int k) {
+    private static int findKthLargestOfficial2(int[] nums, int k) {
         int heapSize = nums.length;
         buildMaxHeap(nums, heapSize);
         for (int i = nums.length - 1; i >= nums.length - k + 1; --i) {
@@ -191,13 +194,13 @@ public class KthLargestElementInAnArray {
         return nums[0];
     }
 
-    private void buildMaxHeap(int[] a, int heapSize) {
+    private static void buildMaxHeap(int[] a, int heapSize) {
         for (int i = heapSize / 2; i >= 0; --i) {
             maxHeapify(a, i, heapSize);
         }
     }
 
-    private void maxHeapify(int[] a, int i, int heapSize) {
+    private static void maxHeapify(int[] a, int i, int heapSize) {
         int l = i * 2 + 1, r = i * 2 + 2, largest = i;
         if (l < heapSize && a[l] > a[largest]) {
             largest = l;
@@ -212,17 +215,38 @@ public class KthLargestElementInAnArray {
     }
 
 
-    private int findKthLargestOfficialtest(int[] nums, int k) {
+    private static int findKthLargestOfficialtest(int[] nums, int k) {
         PriorityQueue<Integer> pq = new PriorityQueue<>();
+        // 遍历数组，pq中保存最大的k个数
         for (int n : nums) {
-            if (pq.size() == k && pq.peek() >= n) continue;
+            // 当达到k的个数的时候，最小的值如果大于 当前遍历的值n（那这个值就不该进入pq）
+            if (pq.size() == k && pq.peek() >= n) {
+                continue;
+            }
+            // 当达到k的个数的,并且大于最小值，那就要把最小值拉出，加入当前值
             if (pq.size() == k) {
                 pq.poll();
             }
+
+            // // 当前的值大于峰值的时候？
+            // if (pq.size() == k && pq.peek() >= n)
             pq.add(n);
         }
         return pq.peek();
     }
+
+    private static int findKthLargestOfficialtest2(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        // 遍历数组，pq中保存最大的k个数
+        for (int n : nums) {
+            pq.add(n);
+            if (pq.size() > k) {
+                pq.poll();
+            }
+        }
+        return pq.peek();
+    }
+
 
 
 
