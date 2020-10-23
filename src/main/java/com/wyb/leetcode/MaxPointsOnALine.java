@@ -42,10 +42,12 @@ https://leetcode-cn.com/problems/max-points-on-a-line/
 public class MaxPointsOnALine {
     public static void main(String[] args) {
         // int[][] nums = {{1,1},{2,2},{3,3}};
-        int[][] nums = {{1,1},{2,2},{3,3},{1,1},{1,1},{1,1},{1,1},{1,1}};
+        // int[][] nums = {{1,1},{2,2},{3,3},{1,1},{1,1},{1,1},{1,1},{1,1}};
         // int[][] nums = {{1,1},{2,3},{1,1},{2,3},{1,1}};
         // int[][] nums = {{1,1},{3,2},{5,3},{4,1},{2,3},{1,4}};
-        int res = maxPoints(nums);
+        int[][] nums = {{0,0}, {94911150,94911151}, {94911151,94911152}};
+        MaxPointsOnALine maxPointsOnALine = new MaxPointsOnALine();
+        int res = maxPointsOnALine.maxPointsOfficial(nums);
         System.out.println("res : " + res);
     }
 
@@ -109,7 +111,7 @@ public class MaxPointsOnALine {
 
     int[][] points;
     int n;
-    HashMap<Double, Integer> lines = new HashMap<Double, Integer>();
+    HashMap<String, Integer> lines = new HashMap<String, Integer>();
     int horisontal_lines;
 
     private Pair<Integer, Integer> add_line(int i, int j, int count, int duplicates) {
@@ -135,7 +137,8 @@ public class MaxPointsOnALine {
         // only slope is needed for a hash-map
         // since we always start from the same point
         else {
-            double slope = 1.0 * (x1 - x2) / (y1 - y2) + 0.0;
+            double tslope = 1.0 * (x1 - x2) / (y1 - y2) + 0.0;
+            String slope = String.valueOf(tslope);
             lines.put(slope, lines.getOrDefault(slope, 1) + 1);
             count = Math.max(lines.get(slope), count);
         }
