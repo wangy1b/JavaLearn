@@ -28,9 +28,9 @@ import java.util.HashSet;
  */
 public class MajorityElement {
     public static void main(String[] args) {
-        // int[] nums = {3,2,3};
-        int[] nums = {3};
-        System.out.println(majorityElement(nums));
+        int[] nums = {3,2,3};
+        // int[] nums = {3};
+        System.out.println(majorityElementOfficial(nums));
     }
 
     private  static int majorityElement(int[] nums) {
@@ -47,5 +47,29 @@ public class MajorityElement {
 
         return 0;
 
+    }
+
+    // 方法五：Boyer-Moore 投票算法
+    // 思路
+    //
+    // 如果我们把众数记为 +1+1，把其他数记为 -1−1，将它们全部加起来，显然和大于 0，从结果本身我们可以看出众数比其他数多。
+    //
+    // 作者：LeetCode-Solution
+    // 链接：https://leetcode-cn.com/problems/majority-element/solution/duo-shu-yuan-su-by-leetcode-solution/
+    // 来源：力扣（LeetCode）
+    // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+    private static int majorityElementOfficial(int[] nums) {
+        int count = 0;
+        Integer candidate = null;
+
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            count += (num == candidate) ? 1 : -1;
+        }
+
+        return candidate;
     }
 }
