@@ -7,7 +7,31 @@ public class AddBinary {
         String a = "1";
         // String b = "11";
         String b = "111";
-        System.out.println(addBinary(a, b));
+        // System.out.println(addBinary(a, b));
+
+        System.out.println(addBinary(6,2));
+        System.out.println(avgBinary(6,2));
+    }
+
+    // 二进制求和
+    private static Integer addBinary(Integer num1, Integer num2) {
+        int a = num1 ^ num2;
+        int b = num1 & num2;
+        b <<= 1;
+        if (b == 0)
+            return a;
+        else
+            return addBinary(a, b);
+
+
+    }
+
+    // 二进制求平均数
+    private static Integer avgBinary(Integer num1, Integer num2) {
+        int a = num1 ^ num2;
+        int b = num1 & num2;
+        a >>= 1;
+        return addBinary(a,b);
     }
 
 
