@@ -1,5 +1,7 @@
 package com.wyb.leetcode;
 
+import java.util.ArrayList;
+
 public class AddBinary {
     public static void main(String[] args) {
         // String a = "1011";
@@ -17,6 +19,8 @@ public class AddBinary {
     private static Integer addBinary(Integer num1, Integer num2) {
         int a = num1 ^ num2;
         int b = num1 & num2;
+        System.out.println("a binary :" + Integer.toBinaryString(a));
+        System.out.println("b binary :" + Integer.toBinaryString(b));
         b <<= 1;
         if (b == 0)
             return a;
