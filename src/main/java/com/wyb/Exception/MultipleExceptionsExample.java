@@ -26,7 +26,7 @@ public class MultipleExceptionsExample {
                     return 1;
 
                 } finally {
-                    System.out.println("inner try finally test.");
+                    System.out.println("inner try finally CountSort.");
                 }
             } catch (MalformedURLException e) {
                 System.out.println("Invalid URL " + urlStr + ": " + e.getMessage());
@@ -36,7 +36,7 @@ public class MultipleExceptionsExample {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             } finally {
-                System.out.println("outer try finally test.");
+                System.out.println("outer try finally CountSort.");
             }
         }
     }

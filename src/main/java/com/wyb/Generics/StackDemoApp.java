@@ -40,7 +40,7 @@ public class StackDemoApp {
         // Stack without using generics
         Stack oldtypeStack = new Stack();
         oldtypeStack.push(10);
-        oldtypeStack.push("test string");
+        oldtypeStack.push("CountSort string");
         for (int i = 0; i < 2; i++) {
 //            String str = (String) oldtypeStack.pop();
 //            System.out.println(str);

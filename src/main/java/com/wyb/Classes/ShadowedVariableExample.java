@@ -18,7 +18,7 @@ class Outer1 {
 public class ShadowedVariableExample {
     public static void main (String[] args) {
         Outer1 outer = new Outer1();
-        System.out.println("test getOutSize:" + outer.getOutSize());
+        System.out.println("CountSort getOutSize:" + outer.getOutSize());
         Outer1.Inner inner = outer.new Inner();
         inner.someMethod(5);
     }

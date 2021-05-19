@@ -13,7 +13,7 @@ public class FibonacciGenerator {
         System.out.println(result);
 
 
-        //test Collections.shuffle
+        //CountSort Collections.shuffle
         Integer[] o = {1,2,3,4,5,6};
         List<Integer> a = Arrays.asList(o) ;
         System.out.println(a);
