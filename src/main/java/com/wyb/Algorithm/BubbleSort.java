@@ -7,22 +7,7 @@ public class BubbleSort {
 
     public static void main(String[] args) {
         int[] arr = {5, 3, 6, 8, 1, 7, 9, 4, 2, 10};
-        //mySort(arr);
         sort(arr);
-    }
-
-
-    public static void mySort(int[] arr){
-
-        for (int i = 0; i < arr.length -1 ; i++) {
-            for (int j = i + 1; j < arr.length -1   ; j++) {
-                if (arr[i] > arr[j]) {
-                    swap(arr, i, j);
-                }
-            }
-        }
-        //System.out.println("排序结果为：");
-        //printArr(arr);
     }
 
     public static void sort(int[] arr){
