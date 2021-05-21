@@ -57,17 +57,18 @@ public class TopKFrequentWords {
                     public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
                         int cmp = o1.getValue().compareTo(o2.getValue());
                         if (cmp == 0) {
-                            return - o1.getKey().compareTo(o2.getKey());
+                            return -o1.getKey().compareTo(o2.getKey());
                         }
                         return cmp;
                     }
                 });
 
-        // todo coding leetcode
         for (Map.Entry<String, Integer> entry : occurrences.entrySet()) {
-            if (heap.size() >= k) {
-                if (entry.getValue() >= heap.element().getValue()) {
-                    //  (entry.getKey().compareTo( heap.element().getKey())) < 0
+            if (heap.size() == k) {
+                if (entry.getValue() > heap.element().getValue() ||
+                        // "coding" "leetcode" 次数同为1的时候，该保留coding 还是leetcode,根据删除规则
+                        (entry.getValue() == heap.element().getValue() &&
+                                entry.getKey().compareTo(heap.element().getKey()) < 0)) {
                     heap.poll();
                     heap.offer(entry);
                 }
@@ -78,7 +79,7 @@ public class TopKFrequentWords {
 
         String[] res = new String[k];
         for (int i = 0; i < k; i++) {
-            res[k-1-i] = heap.poll().getKey();
+            res[k - 1 - i] = heap.poll().getKey();
         }
         return Arrays.asList(res);
     }
