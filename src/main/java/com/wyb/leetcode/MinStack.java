@@ -4,6 +4,7 @@ package com.wyb.leetcode;
 import com.wyb.Algorithm.QuickSort;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -50,73 +51,79 @@ pop、top 和 getMin 操作总是在 非空栈 上调用。
 
  */
 class MinStack {
-    private int initsize = 10;
-    private int[] stack = new int[initsize];
-    private AtomicInteger size = new AtomicInteger(0);
+    int[] elements;
+    int default_length = 10;
+    int idx = 0;
+    int arr_size = 0;
+    int min_idx = 0;
 
-    /**
-     * initialize your data structure here.
-     */
+
+    private void grow() {
+        int old_size = arr_size;
+        arr_size <<= 1;
+        int[] arr = new int[arr_size];
+        System.arraycopy(elements,0,arr,0,old_size);
+        elements = arr;
+    }
+
+
+    /** initialize your data structure here. */
     public MinStack() {
+        this.arr_size = default_length;
+        this.elements = new int[default_length];
+    }
+
+    public MinStack(int size) {
+        this.arr_size = size;
+        this.elements = new int[size];
 
     }
 
-    // 将元素 x 推入栈中。
-    public void push(int x) {
-        if (size.get() >= initsize) {
-            int[] temp = new int[initsize * 2];
-            System.arraycopy(stack, 0, temp, 0, initsize);
-            stack = temp;
-            initsize = initsize * 2;
-        }
-
-        this.stack[size.get()] = x;
-        size.incrementAndGet();
+    public void push(int val) {
+        if(idx == arr_size-1)
+            grow();
+        min_idx = elements[min_idx] <= val ? min_idx : idx;
+        elements[idx++] = val;
     }
 
-    // 删除栈顶的元素。
     public void pop() {
-        this.stack[size.get()-1] = 0;
-        size.decrementAndGet();
+        elements[--idx] = 0;
+        // pop出数据的，并且当前的idx与最小值的min_idx相同的时候，需要重新求最小值
+        if (idx - 1 == min_idx) {
+            for (int i = 0; i < idx; i++) {
+                min_idx = elements[i] < elements[min_idx] ? i : min_idx;
+            }
+        }
     }
 
-    // 获取栈顶元素。
     public int top() {
-        return this.stack[size.get()-1];
+        return elements[idx-1];
     }
 
-    // 检索栈中的最小元素。
     public int getMin() {
-        if (size.get() == 0) return 0;
-        int[] temp = new int[size.get()];
-        System.arraycopy(this.stack,0,temp,0,size.get());
-        QuickSort.sort(temp, 0, size.get()-1);
-        return temp[0];
+        return elements[min_idx];
     }
-
     public static void main(String[] args) {
         MinStack obj = new MinStack();
+        MinStack t = new MinStack();
         // for (int i = 0; i < 10; i++) {
-        //     obj.push(i);
+        //     t.push(1);
         // }
-        // obj.push(10);
-        // obj.push(11);
-        // obj.pop();
-        // obj.push(2);
-        // obj.push(3);
-        //
-        // int param_3 = obj.top();
-        // int param_4 = obj.getMin();
-
-
-        obj.getMin();
-        obj.push(-2);
-        obj.push(0);
-        obj.push(-3);
-        obj.getMin();
-        obj.pop();
-        obj.top();
-        obj.getMin();
+        // t.push(22);
+        // t.push(33);
+        t.push(2);
+        t.push(0);
+        t.push(3);
+        t.push(0);
+        System.out.println(t.top());
+        t.pop();
+        System.out.println(t.top());
+        t.pop();
+        System.out.println(t.getMin());
+        t.pop();
+        System.out.println(t.getMin());
+        // System.out.println(t.top());
+        // System.out.println(t.getMin());
     }
 }
 
