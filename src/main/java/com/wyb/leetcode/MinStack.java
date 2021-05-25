@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /*
 
-理解错了，擦。。。。
 
 
 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
@@ -51,16 +50,16 @@ pop、top 和 getMin 操作总是在 非空栈 上调用。
 
  */
 class MinStack {
-    int[] elements;
-    int default_length = 10;
-    int idx = 0;
-    int arr_size = 0;
-    int min_idx = 0;
+    private int[] elements;
+    private int default_length = 10;
+    private int idx = 0;
+    private int arr_size = 0;
+    private int min_idx = 0;
 
 
     private void grow() {
         int old_size = arr_size;
-        arr_size <<= 1;
+        arr_size = arr_size + (arr_size >> 1);
         int[] arr = new int[arr_size];
         System.arraycopy(elements,0,arr,0,old_size);
         elements = arr;
@@ -82,15 +81,16 @@ class MinStack {
     public void push(int val) {
         if(idx == arr_size-1)
             grow();
-        min_idx = elements[min_idx] <= val ? min_idx : idx;
+        min_idx = val < elements[min_idx]   ? idx : min_idx;
         elements[idx++] = val;
     }
 
     public void pop() {
         elements[--idx] = 0;
-        // pop出数据的，并且当前的idx与最小值的min_idx相同的时候，需要重新求最小值
-        if (idx - 1 == min_idx) {
-            for (int i = 0; i < idx; i++) {
+        // pop出数据的idx，与最小值的min_idx相同的时候，需要重新求最小值，从0到idx-1
+        if (idx == min_idx) {
+            min_idx = 0;
+            for (int i = 1; i < idx; i++) {
                 min_idx = elements[i] < elements[min_idx] ? i : min_idx;
             }
         }
@@ -103,9 +103,10 @@ class MinStack {
     public int getMin() {
         return elements[min_idx];
     }
+
+
     public static void main(String[] args) {
-        MinStack obj = new MinStack();
-        MinStack t = new MinStack();
+        MinStack t = new MinStack(2);
         // for (int i = 0; i < 10; i++) {
         //     t.push(1);
         // }
