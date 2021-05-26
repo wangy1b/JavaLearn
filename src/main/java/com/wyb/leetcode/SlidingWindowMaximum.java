@@ -55,20 +55,25 @@ public class SlidingWindowMaximum {
 
         // int[] nums = {9,11};
         // int k = 2;
-        int[] nums = {2, 3, 2, 1, 2, 3, 2};
-        int k = 3;
+        // int[] nums = {2, 3, 2, 1, 2, 3, 2};
+        // int k = 3;
+        int[] nums = {9,10,9,-7,-4,-8,2,-6};
+        int k = 5;
         SlidingWindowMaximum s = new SlidingWindowMaximum();
-        int[] res = s.maxSlidingWindow(nums, k);
+        // int[] res = s.maxSlidingWindow(nums, k);
+        // int[] res = s.maxSlidingWindowOfficial1(nums, k);
+        // int[] res = s.maxSlidingWindowOfficial2(nums, k);
+        int[] res = s.maxSlidingWindowOfficial3(nums, k);
         for (int re : res) {
             System.out.print(re + " ");
         }
         System.out.println();
 
-        int[] res2 = s.maxSlidingWindow2(nums, k);
-        for (int re2 : res2) {
-            System.out.print(re2 + " ");
-        }
-        System.out.println();
+        // int[] res2 = s.maxSlidingWindow2(nums, k);
+        // for (int re2 : res2) {
+        //     System.out.print(re2 + " ");
+        // }
+        // System.out.println();
     }
 
     // 超出时间限制
@@ -182,8 +187,8 @@ public class SlidingWindowMaximum {
         ans[0] = pq.peek()[0];
         for (int i = k; i < n; ++i) {
             pq.offer(new int[]{nums[i], i});
-            // 最大值左边的数据，因为最大值的存在，所以其他值都不可能成为最大值，所以可以删除
-            // 可以消除大根堆的数据，提高效率
+            // i - k 相当于窗口左边界，i相当于右边界
+            // 如果pq的堆顶值对应的idx小于左边界，就需要移出pq
             while (pq.peek()[1] <= i - k) {
                 pq.poll();
             }
@@ -211,21 +216,27 @@ public class SlidingWindowMaximum {
     // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
     public int[] maxSlidingWindowOfficial2(int[] nums, int k) {
         int n = nums.length;
+        // 维护一个递降的队列，根据值递减，但是存放的是idx
         Deque<Integer> deque = new LinkedList<Integer>();
         for (int i = 0; i < k; ++i) {
+            // 当一个值，从队列最后的值开始比较，若比他大，就该入队，再往前比较，找到当前值应该存放的位置，
+            // 而之前进队的比他小的值都该出队，直到新进的值在队列最后
             while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
                 deque.pollLast();
             }
+            // 正常入队
             deque.offerLast(i);
         }
 
         int[] ans = new int[n - k + 1];
         ans[0] = nums[deque.peekFirst()];
         for (int i = k; i < n; ++i) {
+            // 入队的逻辑跟上面一样
             while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
                 deque.pollLast();
             }
             deque.offerLast(i);
+            // 根据最大值的idx来跟窗口左边界 i - k 来比较，比它小说明已经不在窗口内，需要出队
             while (deque.peekFirst() <= i - k) {
                 deque.pollFirst();
             }
@@ -236,11 +247,21 @@ public class SlidingWindowMaximum {
 
     // 方法三：分块 + 预处理
     // 这种方法与稀疏表（Sparse Table）非常类似，感兴趣的读者可以自行查阅资料进行学习。
+    //
+    // 我们可以将数组 nums 从左到右按照 k 个一组进行分组，最后一组中元素的数量可能会不足 k 个。
+    // 如果我们希望求出 nums[i] 到 nums[i+k−1] 的最大值，就会有两种情况：
+    //
+    // 1.如果 i 是 k 的倍数，那么 nums[i] 到 nums[i+k−1] 恰好是一个分组。我们只要预处理出每个分组中的最大值，即可得到答案；
+    // 2.如果 i 不是 k 的倍数，那么 nums[i] 到 nums[i+k−1] 会跨越两个分组，占有第一个分组的后缀以及第二个分组的前缀。
+    //   假设 j 是 k 的倍数，并且满足 i<j≤i+k−1，那么 nums[i] 到 nums[j−1] 就是第一个分组的后缀，nums[j] 到 nums[i+k−1] 就是第二个分组的前缀。
+    //   如果我们能够预处理出每个分组中的前缀最大值以及后缀最大值，同样可以在 O(1) 的时间得到答案。
     public int[] maxSlidingWindowOfficial3(int[] nums, int k) {
         int n = nums.length;
         int[] prefixMax = new int[n];
         int[] suffixMax = new int[n];
+        // prefixMax 按递增顺序，以第一个值为基础逐个计算基于前一个的最大值
         for (int i = 0; i < n; ++i) {
+            // 为什么i % k == 0 时要把数组值作为最大值？
             if (i % k == 0) {
                 prefixMax[i] = nums[i];
             }
@@ -248,6 +269,7 @@ public class SlidingWindowMaximum {
                 prefixMax[i] = Math.max(prefixMax[i - 1], nums[i]);
             }
         }
+        // suffixMax 按递减顺序，以最后一个值为基础逐个计算基于前一个的最大值
         for (int i = n - 1; i >= 0; --i) {
             if (i == n - 1 || (i + 1) % k == 0) {
                 suffixMax[i] = nums[i];
@@ -257,6 +279,7 @@ public class SlidingWindowMaximum {
         }
 
         int[] ans = new int[n - k + 1];
+        // 结果取两个数组中最大的值
         for (int i = 0; i <= n - k; ++i) {
             ans[i] = Math.max(suffixMax[i], prefixMax[i + k - 1]);
         }
