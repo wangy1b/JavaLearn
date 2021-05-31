@@ -35,6 +35,8 @@ trie.startsWith("app"); // 返回 True
 trie.insert("app");
 trie.search("app");     // 返回 True
 
+https://leetcode-cn.com/problems/implement-trie-prefix-tree/
+
  */
 public class MyImplementTriePrefixTree {
     TreeNode[] elements;
@@ -134,7 +136,7 @@ public class MyImplementTriePrefixTree {
     public boolean search(String word) {
         if (word == null || index == 0) return false;
         char lastLetter = word.charAt(word.length()-1);
-        TreeNode treeNode = getStartWith(word);
+        TreeNode treeNode = getNodeStartWith(word);
         if (treeNode!= null && treeNode.val.getOrDefault(lastLetter,false)
                 && treeHeight == word.length())
             return true;
@@ -144,31 +146,34 @@ public class MyImplementTriePrefixTree {
     /** Returns if there is any word in the trie that starts with the given prefix. */
     // 如果之前已经插入的字符串 word 的前缀之一为 prefix ，返回 true ；否则，返回 false
     public boolean startsWith(String prefix) {
-        TreeNode treeNode = getStartWith(prefix);
+        TreeNode treeNode = getNodeStartWith(prefix);
         if (treeNode == null)
             return false;
         return true;
     }
 
-    private TreeNode getStartWith(String prefix) {
+    private TreeNode getNodeStartWith(String prefix) {
         // 首字母
         char firstChar = prefix.charAt(0);
         // treeNode
         TreeNode treeNode = null;
         for (int i = 0; i < index; i++) {
             TreeNode treeNodes = elements[i];
-            if (!treeNodes.val.containsKey(firstChar)) {
-                return null;
-            }
-            else {
+            if (treeNodes.val.containsKey(firstChar)) {
                 treeNode = treeNodes;
                 break;
             }
         }
+        if (treeNode == null) {
+            return null;
+        }
+
+
         // lastLetter
         char lastLetter = firstChar;
+        treeHeight = 1;
         for (int j = 1; j < prefix.length(); j++) {
-            ++treeHeight;
+            treeHeight++;
             lastLetter = prefix.charAt(j);
             if (lastLetter < splitAlpha && treeNode.left != null) {
                 treeNode = treeNode.left;
@@ -177,8 +182,9 @@ public class MyImplementTriePrefixTree {
             }
 
             // treeNode没了，但是prefix还未结束,返回最后一个有效treeNode
+            // 返回null
             if ((treeNode.left == null && treeNode.right == null &&j != prefix.length() -1)){
-                break;
+                return null;
             }
             // 不包含val
             if(!treeNode.val.containsKey(lastLetter))
@@ -189,12 +195,11 @@ public class MyImplementTriePrefixTree {
 
     public static void main(String[] args) {
         MyImplementTriePrefixTree trie = new MyImplementTriePrefixTree();
-        trie.insert("apple");
-        trie.search("apple");   // 返回 True
-        trie.startsWith("apple");   // 返回 True
-        // todo 超过treeNode的测试用例怎么判断
-        trie.search("applea");   // 返回 True
-        trie.startsWith("appled");   // 返回 True
+        // trie.insert("apple");
+        // trie.search("apple");   // 返回 True
+        // System.out.println(trie.startsWith("apple"));   // 返回 True
+        // System.out.println(trie.search("applea"));   // 返回 True
+        // System.out.println(trie.startsWith("appled"));   // 返回 True
         // trie.search("app");     // 返回 False
         // trie.startsWith("app"); // 返回 True
         // trie.insert("app");
@@ -209,31 +214,32 @@ public class MyImplementTriePrefixTree {
         // trie.startsWith("helloa");
         // trie.startsWith("hello");
 
-
-        // trie.insert("app");
-        // trie.insert("apple");
-        // trie.insert("beer");
-        // trie.insert("add");
-        // trie.insert("jam");
-        // trie.insert("rental");
-        // trie.search("apps");
-        // trie.search("app");
-        // trie.search("ad");
-        // trie.search("applepie");
-        // trie.search("rest");
-        // trie.search("jan");
-        // trie.search("rent");
-        // trie.search("beer");
-        // trie.search("jam");
-        // trie.startsWith("apps");
-        // trie.startsWith("app");
-        // trie.startsWith("ad");
-        // trie.startsWith("applepie");
-        // trie.startsWith("rest");
-        // trie.startsWith("jan");
-        // trie.startsWith("rent");
-        // trie.startsWith("beer");
-        // trie.startsWith("jam");
+        trie.insert("app");
+        trie.insert("apple");
+        trie.insert("beer");
+        trie.insert("add");
+        trie.insert("jam");
+        trie.insert("rental");
+        trie.search("apps");
+        trie.search("app");
+        trie.search("ad");
+        trie.search("applepie");
+        trie.search("rest");
+        trie.search("jan");
+        trie.search("rent");
+        trie.search("beer");
+        trie.search("jam");
+        trie.search("apple");
+        trie.startsWith("apple");
+        trie.startsWith("apps");
+        trie.startsWith("app");
+        trie.startsWith("ad");
+        trie.startsWith("applepie");
+        trie.startsWith("rest");
+        trie.startsWith("jan");
+        trie.startsWith("rent");
+        trie.startsWith("beer");
+        trie.startsWith("jam");
 
     }
 }
