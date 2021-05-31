@@ -138,10 +138,13 @@ class MyLinkedList2 {
                 h = h.next;
             }
             // m 指向其所在位置前后节点
-            Node m = new Node(val, h.next, h);
+            //  prev <- m -> next
+            Node m = new Node(val, h, h.prev);
             // 下一节点指向m
-            h.next.next = m;
-            h.next = m;
+            // prev -> m
+            h.prev.next = m;
+            // next -> m
+            h.prev = m;
         }
         // add from tail
         else {
@@ -150,9 +153,12 @@ class MyLinkedList2 {
                 t = t.prev;
             }
             // m 指向其所在位置前后节点
+            //  prev <- m -> next
             Node m = new Node(val, t, t.prev);
             // 前一节点指向m
+            // prev -> m
             t.prev.next = m;
+            // next -> m
             t.prev = m;
 
         }
@@ -163,12 +169,6 @@ class MyLinkedList2 {
      * Delete the index-th node in the linked list, if the index is valid.
      */
     public void deleteAtIndex(int index) {
-        // if (index == 0) {
-        //     head = head.next;
-        //     head.prev = null;
-        //     size--;
-        //     return;
-        // } else
 
         if (index >= size || index < 0)
             return;
@@ -182,33 +182,37 @@ class MyLinkedList2 {
             }
 
             // a(h.prev) -> h -> c (h.next)
-
-
-            // todo 怎么删除head
             // c -> a
-            if (h.next != null)
+            if (h.next != null) {
                 h.next.prev = h.prev != null ? h.prev : null;
 
-            // a -> c
-            if (h != head)
-                h.prev.next = h.next;
-            else
+                // a -> c
+                if (h == head)
+                    head = head.next;
+                else {
+                    h.prev.next = h.next;
+                }
+            } else
                 h = h.next;
+
         }
         // delete from tail
         else {
             Node t = tail;
-            for (int idx = size -1; t.prev != null && idx >= index ; idx--) {
+            for (int idx = size -1; t.prev != null && idx > index ; idx--) {
                 t = t.prev;
             }
-            if (t.prev != null)
+            if (t.prev != null) {
                 t.prev.next = t.next != null ? t.next : null;
-            else
 
-            if (t != tail)
-                t.next.prev = t.prev ;
-            else
-                tail.prev = t.prev.prev ;
+                // 如果时tail那就只用指向tail.prev就行
+                if (t == tail)
+                    tail = tail.prev;
+                // 否则需要利用前节点，链接上后节点
+                else
+                    t.next.prev = t.prev;
+            } else
+                t = t.prev;
         }
         size--;
     }
@@ -221,20 +225,31 @@ class MyLinkedList2 {
         // linkedList.get(2);
         // linkedList.deleteAtIndex(2);
         //
-        // linkedList.addAtTail(10);
-        // linkedList.addAtTail(20);
-        // linkedList.addAtTail(30);
-        // linkedList.get(3);
-        // linkedList.addAtHead(10);
-        // linkedList.addAtTail(30);
-        // linkedList.addAtIndex(1,20);
-        // linkedList.get(1);
-        // linkedList.deleteAtIndex(1);
-        // linkedList.get(1);
-
-
+        linkedList.addAtTail(10);
+        linkedList.addAtTail(20);
+        linkedList.addAtTail(30);
+        linkedList.get(3);
         linkedList.addAtHead(10);
-        linkedList.deleteAtIndex(0);
+        linkedList.addAtTail(30);
+        linkedList.addAtIndex(1,20);
+        linkedList.get(1);
+        linkedList.deleteAtIndex(1);
+        linkedList.get(1);
+
+
+        // linkedList.addAtHead(10);
+        // linkedList.deleteAtIndex(0);
+
+
+        // linkedList.addAtHead(1);
+        // linkedList.addAtTail(3);
+        // linkedList.addAtIndex(1,2);
+        // linkedList.get(1);
+        // linkedList.deleteAtIndex(0);
+        // linkedList.get(0);
+
+
+
     }
 
 }
