@@ -27,10 +27,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-class Trie{
-    public HashMap<Character,Trie> children = new HashMap<Character,Trie>();
+class MyTrie{
+    public HashMap<Character,MyTrie> children = new HashMap<Character,MyTrie>();
     public String word;
-    public Trie(){}
+    public MyTrie(){}
 }
 
 public class ImplementTriePrefixTree {
@@ -70,7 +70,7 @@ public class ImplementTriePrefixTree {
         // String[] words = {"oath","pea","eat","rain"};
         String[] words = {"aba","baa","bab","aaab","aaa","aaaa","aaba"};
         Arrays.sort(words);
-        Trie root = new Trie();
+        MyTrie root = new MyTrie();
         // build Trie
         buildTrie(words,root);
 
@@ -102,16 +102,16 @@ public class ImplementTriePrefixTree {
 
     }
 
-    private static void buildTrie(String[] words,Trie root){
+    private static void buildTrie(String[] words,MyTrie root){
         for(int i = 0;i<words.length;i++) {
-            Trie node = root;
+            MyTrie node = root;
             // Trie preNode = root;
             String wd = words[i];
             for(int j = 0;j<wd.length();j++){
                 // not exist,then add
                 char alph = wd.charAt(j);
                 if(!node.children.containsKey(alph)) {
-                    Trie t = new Trie();
+                    MyTrie t = new MyTrie();
                     node.children.put(alph,t);
                 }
                 // preNode = node;
@@ -123,9 +123,9 @@ public class ImplementTriePrefixTree {
 
     }
 
-    private static boolean helper(char[][] board, boolean[][] visited, int i, int j, Trie root,List<String> reslist) {
+    private static boolean helper(char[][] board, boolean[][] visited, int i, int j, MyTrie root,List<String> reslist) {
         char alph = board[i][j];
-        Trie node = root.children.get(alph);
+        MyTrie node = root.children.get(alph);
         if (!root.children.containsKey(alph)) {
             return false;
         }
