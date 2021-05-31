@@ -1,6 +1,6 @@
 package com.wyb.leetcode;
 
-import java.util.List;
+import java.util.*;
 
 /***
  * 355. 设计推特
@@ -42,13 +42,31 @@ import java.util.List;
  */
 public class Twitter {
 
+    HashMap<Integer,List<Long[]>> userTweetsWithTime;
+    HashMap<Integer,List<Integer>> userFollower;
+
+    // 用于排序，取最新的10条tweet
+    PriorityQueue<Long[]> pq = new PriorityQueue<>(10, new Comparator<Long[]>() {
+        @Override
+        // TweetsWithTime o1{tweet,timestamp}
+        public int compare(Long[] o1, Long[] o2) {
+            return o1[1].compareTo(o2[1]);
+        }
+    });
+
+
     /** Initialize your data structure here. */
     public Twitter() {
-
+        userTweetsWithTime = new HashMap<>();
+        userFollower = new HashMap<>();
     }
 
     /** Compose a new tweet. */
     public void postTweet(int userId, int tweetId) {
+        if (userFollower.containsKey(userId)) {
+            userTweetsWithTime.put(userId,null);
+        }
+        userFollower.put(userId,null);
 
     }
 
