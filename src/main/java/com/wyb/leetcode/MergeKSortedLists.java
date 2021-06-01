@@ -56,6 +56,13 @@ public class MergeKSortedLists {
      * }
      */
 
+    /**
+     *
+     * 执行结果：通过
+     执行用时：308 ms , 在所有 Java 提交中击败了7.77%的用户
+     内存消耗：40.1 MB, 在所有 Java 提交中击败了65.44%的用户
+
+     */
     public ListNode merge2Lists(ListNode[] lists) {
         ListNode res = new ListNode(Integer.MAX_VALUE);
         ListNode h = res;
@@ -122,15 +129,46 @@ public class MergeKSortedLists {
         return res.next;
     }
 
+    // 「原地调整链表元素的 next 指针完成合并」
+    public ListNode myMergeKLists2(ListNode[] lists) {
+        int len = lists.length;
+        if (len == 0) return null;
+        // 模仿插入排序，将数组第一个list当成已经排好序的结果，
+        // 遍历剩下的list,判断其中的值应该在什么位置
+        ListNode res = lists[0];
+        ListNode h = res;
+        for (int i = 1; i < len; i++) {
+            ListNode ptr = lists[i];
+            ListNode hPrev = new ListNode(Integer.MAX_VALUE,ptr);
+            while (h != null && ptr != null) {
+                // h 指针移动到“比他大”的位置停下
+                while (h.val <= ptr.val) {
+                    hPrev = h;
+                    h = h.next;
+                }
+                // ptr 指针移动到“不比他大”的位置停下
+                // todo ptr 比h 小的有部分丢掉
+                while (h.val <= ptr.val) ptr = ptr.next;
+                hPrev.next = new ListNode(ptr.val ,h);
+                h = hPrev.next;
+                ptr = ptr.next;
+
+
+            }
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         ListNode listNode1 = ListNode.generateListNode(new int[]{1, 4, 5});
         ListNode listNode2 = ListNode.generateListNode(new int[]{1, 3, 4});
         ListNode listNode3 = ListNode.generateListNode(new int[]{2, 6});
-        ListNode[] lists = new ListNode[]{null, listNode1, null, listNode2, listNode3, null};
-        // ListNode[] lists = new ListNode[]{listNode1, listNode2};
+        // ListNode[] lists = new ListNode[]{null, listNode1, null, listNode2, listNode3, null};
+        ListNode[] lists = new ListNode[]{listNode3, listNode2};
         MergeKSortedLists m = new MergeKSortedLists();
-        ListNode res = m.myMergeKLists(lists);
+        // ListNode res = m.myMergeKLists(lists);
+        ListNode res = m.myMergeKLists2(lists);
         ListNode.printListNode(res);
     }
 }
