@@ -1,5 +1,6 @@
 package com.wyb.leetcode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,35 +82,40 @@ public class MergeKSortedLists {
         return res.next;
     }
 
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode myMergeKLists(ListNode[] lists) {
+        int len = lists.length;
+        if (len == 0) return null;
         ListNode res = new ListNode(Integer.MAX_VALUE);
         ListNode h = res;
-        int j = lists.length;
-        while (j > 0) {
+        int flag = len;
+        while (flag > 0) {
             int minVal = Integer.MAX_VALUE;
+            ListNode minPtr = null;
+            int minIdx = 0;
             // 每次求一轮的最小值，并把当前的list指向下一个节点
-            for (int i = 0; i < lists.length; i++) {
+            for (int i = 0; i < len; i++) {
                 ListNode ptr = lists[i];
-                ListNode minPtr = ptr;
-                int minIdx = i;
                 // ptr不为空
                 if (ptr != null) {
-                    if (ptr.val <= minVal) {
+                    if (ptr.val < minVal) {
                         minVal = ptr.val;
                         minPtr = ptr;
                         minIdx = i;
                     }
-                } else {
-                    j--;
-                    break;
-                }
-                // 每一轮记录下最小值，并把当前的list指向下一个节点
-                if (i == lists.length -1 ) {
-                    minPtr = minPtr.next;
-                    lists[minIdx] = minPtr;
                 }
             }
+            // 判断minPtr是否为空：
+            // 1.当前list一开始就为null
+            // 2.当前list的节点已经推到null
+            if (minPtr == null) {
+                flag--;
+                break;
+            }
 
+            // 每一轮记录下最小值，并把当前的list指向下一个节点
+            minPtr = minPtr.next;
+            lists[minIdx] = minPtr;
+            // 追加到结果上
             h.next = new ListNode(minVal);
             h = h.next;
         }
@@ -121,10 +127,10 @@ public class MergeKSortedLists {
         ListNode listNode1 = ListNode.generateListNode(new int[]{1, 4, 5});
         ListNode listNode2 = ListNode.generateListNode(new int[]{1, 3, 4});
         ListNode listNode3 = ListNode.generateListNode(new int[]{2, 6});
-        // ListNode[] lists = new ListNode[]{listNode1, listNode2, listNode3};
-        ListNode[] lists = new ListNode[]{listNode1, listNode2};
+        ListNode[] lists = new ListNode[]{null, listNode1, null, listNode2, listNode3, null};
+        // ListNode[] lists = new ListNode[]{listNode1, listNode2};
         MergeKSortedLists m = new MergeKSortedLists();
-        ListNode res = m.mergeKLists(lists);
+        ListNode res = m.myMergeKLists(lists);
         ListNode.printListNode(res);
     }
 }
