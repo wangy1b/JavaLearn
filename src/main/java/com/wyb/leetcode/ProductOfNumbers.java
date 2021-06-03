@@ -42,7 +42,6 @@ public class ProductOfNumbers {
     public int index = 0;
     private int size = 0;
     private int default_size = 10;
-    private int start_index = 0;
 
     private void grow() {
         int new_size = size + (size >> 1);
@@ -55,27 +54,24 @@ public class ProductOfNumbers {
     public ProductOfNumbers() {
         data = new int[default_size];
         size = default_size;
+        data[0] = 1;
     }
 
     public void add(int num) {
-        if (index == size)
+        if (index == size-1)
             grow();
-        // 每次增加就把最后一个值跟前面所有的数据都乘一遍
-        // 包含0 之前的都已经全是0了，不需要再去遍历
-        for (int i = start_index; i < index; i++) {
-            data[i] *= num;
+        if (num == 0) index = 0;
+        else {
+            // 维护一个累计前面数据的乘积的值到当前位置
+            data[++index] = num;
+            data[index] *= data[index - 1];
         }
-        // 赋值当前值
-        data[index++] = num;
-        // 记录包含0 的下一个位置
-        if (num == 0)
-            start_index = index;
     }
 
     public int getProduct(int k) {
         if (k <= 0) return 0;
         // 返回第index - k 个的值
-        return data[index - k];
+        return index - k >= 0 ? data[index]/data[index - k] : 0;
     }
 
 
@@ -90,7 +86,7 @@ public class ProductOfNumbers {
         System.out.println(productOfNumbers.getProduct(3)); // 返回 40 。最后 3 个数字的乘积是 2 * 5 * 4 = 40
         System.out.println(productOfNumbers.getProduct(4)); // 返回  0 。最后 4 个数字的乘积是 0 * 2 * 5 * 4 = 0
         productOfNumbers.add(8);        // [3,0,2,5,4,8]
-        System.out.println(productOfNumbers.getProduct(2)); // 返回 32 。最后 2 个数字的乘积是 4 * 8 = 32
+        System.out.println(productOfNumbers.getProduct(12)); // 返回 32 。最后 2 个数字的乘积是 4 * 8 = 32
         // for (int i = 0; i < 32; i++) {
         //     productOfNumbers.add(i);
         // }
