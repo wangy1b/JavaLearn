@@ -75,9 +75,9 @@ public class Skiplist {
     /**
      * 结构
      * level 1:  14 -------------------> 50
-     * |					   |
+     *           |					     |
      * level 2: 14 -------> 34 -------> 50 -------------> 72
-     * |			  |			  | 				|
+     *          |			|			| 				  |
      * level 3: 14 -> 23 -> 34 -> 43 -> 50 -> 59 -> 66 -> 72
      */
     public void add(int num) {
@@ -100,49 +100,54 @@ public class Skiplist {
             // h.next != null
             Node lastLevelHead = h;
             Node lastLevelTail = h.next;
-            while (h.next != null) {
-                // 在当前这个节点和下一个节点之间
-                // 添加在右侧
-                if (num >= h.val && num < h.next.val) {
-                    Node currentLevelHead = h;
-                    // 找到当前节点该放的位置
-                    while (num >= h.val && h != lastLevelTail) {
-                        h = h.next;
-                    }
-                    // 如果不是最后一个节点
-                    if (h.next != lastLevelTail) {
-                        Node t = h.next;
-                        h.next = new Node(num, t);
-                    }
-                    // 如果当前节点为最后一个节点
-                    // 那把当前节点的头节点添加到这层节点的头节点的下一层节点
-                    else if (h.next == lastLevelTail) {
-                        Node t = h.next;
-                        h.next = new Node(num, t);
-                        lastLevelHead.nextLevelNode = currentLevelHead;
-                    }
+            // 首尾节点没有下一层节点，那就需要把节点加入中间，生成新一层
+            if (lastLevelHead.nextLevelNode == null && lastLevelTail.nextLevelNode == null) {
+                while (h.next != null) {
+                    // 在当前这个节点和下一个节点之间
+                    // 添加在右侧
+                    if (num >= h.val && num < h.next.val) {
+                        Node currentLevelHead = h;
+                        // 找到当前节点该放的位置
+                        while (num >= h.val && h != lastLevelTail) {
+                            h = h.next;
+                        }
+                        // 如果不是最后一个节点
+                        if (h.next != lastLevelTail) {
+                            Node t = h.next;
+                            h.next = new Node(num, t);
+                        }
+                        // 如果当前节点为最后一个节点
+                        // 那把当前节点的头节点添加到这层节点的头节点的下一层节点
+                        else if (h.next == lastLevelTail) {
+                            Node t = h.next;
+                            h.next = new Node(num, t);
+                            lastLevelHead.nextLevelNode = currentLevelHead;
+                        }
 
-                } else if (num < h.val) {  // 在当前这个节点左边
-                    Node o = h;
-                    h = new Node(num, o);
-                    // 如果当前节点为最后一个节点
-                    // 那把当前节点的头节点添加到这层节点的头节点的下一层节点
-                    if (h.next == null) {
-                        lastLevelHead.nextLevelNode = h;
-                        // 把以上所有层级的head都改为以当前节点开始的
-                        Node preHead = head;
-                        while (preHead.nextLevelNode != null && preHead.val != num) {
-                            preHead.val = num;
-                            preHead = preHead.nextLevelNode;
+                    } else if (num < h.val) {  // 在当前这个节点左边
+                        Node o = h;
+                        h = new Node(num, o);
+                        // 如果当前节点为最后一个节点
+                        // 那把当前节点的头节点添加到这层节点的头节点的下一层节点
+                        if (h.next == null) {
+                            lastLevelHead.nextLevelNode = h;
+                            // 把以上所有层级的head都改为以当前节点开始的
+                            Node preHead = head;
+                            while (preHead.nextLevelNode != null && preHead.val != num) {
+                                preHead.val = num;
+                                preHead = preHead.nextLevelNode;
+                            }
+
                         }
 
                     }
 
+                    h = h.next;
                 }
 
-                h = h.next;
-            }
+            } else { // 否则就应该加在这一层
 
+            }
 
         }
         length++;
