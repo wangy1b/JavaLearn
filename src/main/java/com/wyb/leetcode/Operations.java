@@ -32,23 +32,51 @@ class Operations {
 
     }
 
+    /**
+     * 取相反数
+     * @param s
+     * @return
+     */
+    private int negate(int s) {
+        int res = 0;
+        int flag = s > 0 ? 1 : -1;
+        while (s != 0) {
+            // 结果加flag
+            res += flag;
+            // 判断条件加flag
+            s += flag;
+        }
+        return res;
+    }
+
+    /**
+     * 取绝对值
+     * @param s
+     * @return
+     */
+    private int abs(int s){
+        if (s >= 0) return s;
+        return negate(s);
+    }
+
     // 超出时间限制
     // minus(a, b) 减法，返回a - b
     public int minus(int a, int b) {
-        return a + (-b);
+        return a + negate(b);
     }
 
     // multiply(a, b) 乘法，返回a * b
+    // 转化为a个b相加(当a<b时)，注意符号就行
     public int multiply(int a, int b) {
         if (a == 0 || b == 0) return 0;
         int flag = 1;
-        if ( a >= 0 & b >= 0) {
+        if ( a >= 0 && b >= 0) {
             flag = 1;
         }
         else {
             flag = -1;
-            a = Math.abs(a);
-            b = Math.abs(b);
+            a = abs(a);
+            b = abs(b);
         }
 
         int maxOne = a > b ? a : b;
@@ -57,35 +85,35 @@ class Operations {
         for (int i = 0; i < minOne; i++) {
             res += maxOne;
         }
-        return flag > 0 ? res : -res;
+        return flag > 0 ? res : negate(res);
     }
 
     // divide(a, b) 除法，返回a / b
+    // 假设结果为res，转化为res * b < a，注意符号
     public int divide(int a, int b) {
-        int res = a;
-
+        // 被除数不能为0
+        assert b != 0;
+        // 正负值判断条件
         int flag = 1;
-        if ( a >= 0 & b >= 0) {
+        if ( a >= 0 && b > 0) {
             flag = 1;
         }
         else {
             flag = -1;
-            a = Math.abs(a);
-            b = Math.abs(b);
+            a = abs(a);
+            b = abs(b);
         }
-
-
-
-        while (multiply(res , b) > a) {
-                res =  minus(res , 1);
-            }
-
-        return multiply(res,flag);
+        int res = 0;
+        while (multiply(res, b) < a) {
+                res += 1 ;
+        }
+        return flag > 0 ? res : negate(res);
     }
 
     public static void main(String[] args) {
         Operations operations = new Operations();
-        System.out.println(operations.minus(1, 2)); //返回-1
+        // System.out.println(operations.minus(1, 2)); //返回-1
+        System.out.println(operations.minus(10,-2147483647)); //返回-1
         System.out.println(operations.multiply(3, 4)); //返回12
         System.out.println(operations.divide(5, -3)); //返回-2
     }
