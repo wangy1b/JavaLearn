@@ -39,11 +39,56 @@ package com.wyb.leetcode;
 https://leetcode-cn.com/problems/last-stone-weight-ii/
  */
 public class LastStoneWeightII {
-    public int lastStoneWeightII(int[] stones) {
-        return 0;
+    public int lastStoneWeightIIOfficial1(int[] stones) {
+        int sum = 0;
+        for (int weight : stones) {
+            sum += weight;
+        }
+        int n = stones.length, m = sum / 2;
+        boolean[][] dp = new boolean[n + 1][m + 1];
+        dp[0][0] = true;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j <= m; ++j) {
+                if (j < stones[i]) {
+                    dp[i + 1][j] = dp[i][j];
+                } else {
+                    dp[i + 1][j] = dp[i][j] || dp[i][j - stones[i]];
+                }
+            }
+        }
+        for (int j = m;; --j) {
+            if (dp[n][j]) {
+                return sum - 2 * j;
+            }
+        }
+    }
+
+
+    public int lastStoneWeightIIOfficial2(int[] stones) {
+        int sum = 0;
+        for (int weight : stones) {
+            sum += weight;
+        }
+        int m = sum / 2;
+        boolean[] dp = new boolean[m + 1];
+        dp[0] = true;
+        for (int weight : stones) {
+            for (int j = m; j >= weight; --j) {
+                dp[j] = dp[j] || dp[j - weight];
+            }
+        }
+        for (int j = m;; --j) {
+            if (dp[j]) {
+                return sum - 2 * j;
+            }
+        }
     }
 
     public static void main(String[] args) {
-
+        LastStoneWeightII l = new LastStoneWeightII();
+        // int[] nums = new int[]{2,7,4,1,8,1};
+        int[] nums = new int[]{31,26,33,21,40};
+        int res = l.lastStoneWeightIIOfficial1(nums);
+        System.out.println("res : "+res);
     }
 }
