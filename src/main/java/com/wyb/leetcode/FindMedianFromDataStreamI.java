@@ -76,15 +76,19 @@ public class FindMedianFromDataStreamI {
         }
     }
 
-    public void addNum(int num) {
-        int moveIdx = 0;
-        for (int i = size - 1; i >= 0; i--) {
-            if (num >= store[i]) {
-                moveIdx = i + 1;
-                break;
-            }
-        }
+    private int binarySearchIdx(int num,int start, int end){
+        if (start == end && num >= store[start]) return start+1;
+        if (start == end && num < store[start]) return start;
+        int medianIdx = (start + end) >> 1;
+        if (num > store[medianIdx])
+            return binarySearchIdx(num,medianIdx+1,end);
+        else if (num < store[medianIdx])
+            return binarySearchIdx(num,0,medianIdx);
+        return medianIdx +1;
+    }
 
+    public void addNum(int num) {
+        int moveIdx = size == 0 ? 0 : binarySearchIdx(num,0,size - 1);
         int moveNums = size - 1 - moveIdx + 1;
         if (moveNums > 0) {
             // 拷贝后半段
@@ -103,12 +107,13 @@ public class FindMedianFromDataStreamI {
 
     public static void main(String[] args) {
         FindMedianFromDataStreamI f = new FindMedianFromDataStreamI();
-        f.addNum(1);
-        f.addNum(2);
+        f.addNum(6);
+        f.addNum(10);
         System.out.println(f.findMedian()); // -> 1.5
-        f.addNum(3);
-        f.addNum(3);
         f.addNum(2);
+        f.addNum(6);
+        f.addNum(5);
+        f.addNum(0);
         System.out.println(f.findMedian()); // -> 2
     }
 
