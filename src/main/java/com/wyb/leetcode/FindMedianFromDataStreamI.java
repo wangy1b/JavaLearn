@@ -75,6 +75,7 @@ public class FindMedianFromDataStreamI {
         }
     }
 
+    // 递归二分 寻找插入地址
     private int binarySearchIdx(int num, int start, int end) {
         if (start == end && num >= store[start]) return start + 1;
         if (start == end && num < store[start]) return start;
@@ -86,8 +87,21 @@ public class FindMedianFromDataStreamI {
         return medianIdx + 1;
     }
 
+    // 迭代二分 寻找插入地址
+    private int binarySearchIdxNew(int num, int start, int end) {
+        while (start < end) {
+            int medianIdx = (start + end) >> 1;
+            if (num > store[medianIdx])
+                start = medianIdx+1;
+            else
+                end = medianIdx-1;
+        }
+        return num > store[start] ?  start + 1 : start;
+    }
+
     public void addNum(int num) {
-        int moveIdx = size == 0 ? 0 : binarySearchIdx(num, 0, size - 1);
+        // int moveIdx = size == 0 ? 0 : binarySearchIdx(num, 0, size - 1);
+        int moveIdx = size == 0 ? 0 : binarySearchIdxNew(num, 0, size - 1);
         int moveNums = size - 1 - moveIdx + 1;
         if (moveNums > 0) {
             // 拷贝后半段
@@ -106,13 +120,13 @@ public class FindMedianFromDataStreamI {
 
     public static void main(String[] args) {
         FindMedianFromDataStreamI f = new FindMedianFromDataStreamI();
-        f.addNum(6);
-        f.addNum(10);
+        f.addNum(-1);
+        f.addNum(-2);
         System.out.println(f.findMedian()); // -> 1.5
-        f.addNum(2);
-        f.addNum(6);
-        f.addNum(5);
-        f.addNum(0);
+        f.addNum(-3);
+        f.addNum(-5);
+        f.addNum(-6);
+        f.addNum(-4);
         System.out.println(f.findMedian()); // -> 2
     }
 
