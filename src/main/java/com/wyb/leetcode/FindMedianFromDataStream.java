@@ -37,25 +37,24 @@ import java.util.Vector;
 /**
  * 方法三：两个堆
  * 算法：
-
- 两个优先级队列：
- 用于存储较小一半数字的最大堆 lo
- 用于存储较大一半数字的最小堆 hi
- 最大堆 lo 允许存储的元素最多比最小堆 hi 多一个。因此，如果我们处理了 k 元素：
- 如果 k=2*n+1 (∀,n∈z) 则允许 lo 持有 n+1 元素，而 hi 可以持有 n 元素。
- 如果 k=2∗n(∀,n∈z)，那么两个堆都是平衡的，并且每个堆都包含 n 个元素。
- 这给了我们一个很好的特性，即当堆完全平衡时，中间值可以从两个堆的顶部派生。否则，最大堆 lo 的顶部保留合法的中间值。
-
- 添加一个数 num：
- 将 num 添加到最大堆 lo。因为 lo 收到了一个新元素，所以我们必须为 hi 做一个平衡步骤。因此，从 lo 中移除最大的元素并将其提供给 hi。
- 在上一个操作之后，最小堆 hi 可能会比最大堆 lo 保留更多的元素。我们通过从 hi 中去掉最小的元素并将其提供给 lo 来解决这个问题。
- 上面的步骤确保两个堆能够平衡
-
- 作者：LeetCode
- 链接：https://leetcode-cn.com/problems/find-median-from-data-stream/solution/shu-ju-liu-de-zhong-wei-shu-by-leetcode/
- 来源：力扣（LeetCode）
- 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-
+ * <p>
+ * 两个优先级队列：
+ * 用于存储较小一半数字的最大堆 lo
+ * 用于存储较大一半数字的最小堆 hi
+ * 最大堆 lo 允许存储的元素最多比最小堆 hi 多一个。因此，如果我们处理了 k 元素：
+ * 如果 k=2*n+1 (∀,n∈z) 则允许 lo 持有 n+1 元素，而 hi 可以持有 n 元素。
+ * 如果 k=2∗n(∀,n∈z)，那么两个堆都是平衡的，并且每个堆都包含 n 个元素。
+ * 这给了我们一个很好的特性，即当堆完全平衡时，中间值可以从两个堆的顶部派生。否则，最大堆 lo 的顶部保留合法的中间值。
+ * <p>
+ * 添加一个数 num：
+ * 将 num 添加到最大堆 lo。因为 lo 收到了一个新元素，所以我们必须为 hi 做一个平衡步骤。因此，从 lo 中移除最大的元素并将其提供给 hi。
+ * 在上一个操作之后，最小堆 hi 可能会比最大堆 lo 保留更多的元素。我们通过从 hi 中去掉最小的元素并将其提供给 lo 来解决这个问题。
+ * 上面的步骤确保两个堆能够平衡
+ * <p>
+ * 作者：LeetCode
+ * 链接：https://leetcode-cn.com/problems/find-median-from-data-stream/solution/shu-ju-liu-de-zhong-wei-shu-by-leetcode/
+ * 来源：力扣（LeetCode）
+ * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
  */
 
 public class FindMedianFromDataStream {
@@ -77,11 +76,12 @@ public class FindMedianFromDataStream {
     }
 
     public void addNum(int num) {
+        // 先进用大顶堆存放较小一半数字lo
         lo.offer(num); // Add to max heap
-
+        // 再把大顶堆第一个数据放进存放较大的一半输的小顶堆hi
         hi.offer(lo.peek()); // balancing step
         lo.poll();
-
+        // 如果小的队数据个数小于大的，将大的头数据拿回去
         if (lo.size() < hi.size()) { // maintain size property
             lo.offer(hi.peek());
             hi.poll();
@@ -90,6 +90,7 @@ public class FindMedianFromDataStream {
     }
 
     public double findMedian() {
+        // 如果是奇数个，那就再lo里面；偶数个取lo和hi的peek的平均值
         return lo.size() > hi.size() ? (double) lo.peek() : (lo.peek() + hi.peek()) * 0.5;
     }
 
