@@ -1,6 +1,8 @@
 package com.wyb.leetcode;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 105. 从前序与中序遍历序列构造二叉树
@@ -24,7 +26,6 @@ import java.util.Arrays;
  * https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
  */
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
-
 
     // 前序：根节点,[左子节点前序],[右子节点前序]
     // 中序：[左子节点中序],根节点,[右子节点中序]
@@ -53,14 +54,58 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
         return res;
     }
 
+    // 构建中序遍历结果的map <val，index> ，方便后续确定根节点位置
+    Map<Integer, Integer> inorderMap = new HashMap<>();
+
+    // 前序：根节点,[左子节点前序],[右子节点前序]
+    // 中序：[左子节点中序],根节点,[右子节点中序]
+    public TreeNode buildTree2(int[] preorder, int[] inorder) {
+        int len = preorder.length;
+        if (len == 0) return null;
+        for (int i = 0; i < len; i++) {
+            inorderMap.put(inorder[i], i);
+        }
+        return helper(preorder, 0, len - 1);
+    }
+
+    /**
+     * @param preorder:    先序数组
+     * @param preStartIdx: 先序数组开始的位置
+     * @param preEndIdx:   先序数组结束的位置
+     * @return
+     */
+    public TreeNode helper(int[] preorder, int preStartIdx, int preEndIdx) {
+        if (preStartIdx > preEndIdx) return null;
+        TreeNode res = new TreeNode(preorder[preStartIdx]);
+        if (preStartIdx == preEndIdx) return res;
+        // 根据前序确定的根节点，在中序遍历结果里找到根节点位置
+        int inRootIdx = inorderMap.get(preorder[preStartIdx]);
+
+        // 前序：{根节点,[左子节点前序]},[右子节点前序]
+        // 中序：{[左子节点中序],根节点},[右子节点中序]
+
+        //todo  preStartIdx + 1 > inRootIdx 时该怎么处理？
+        // 取花括号第一部分
+        res.left = helper(preorder, preStartIdx + 1, inRootIdx);
+        // 取花括号剩下部分
+        res.right = helper(preorder, inRootIdx + 1, preEndIdx);
+
+
+        return res;
+    }
+
 
     public static void main(String[] args) {
         ConstructBinaryTreeFromPreorderAndInorderTraversal c =
                 new ConstructBinaryTreeFromPreorderAndInorderTraversal();
-        int[] preorder = {3, 9, 20, 15, 7};
-        int[] inorder = {9, 3, 15, 20, 7};
+        // int[] preorder = {3, 9, 20, 15, 7};
+        // int[] inorder = {9, 3, 15, 20, 7};
 
-        TreeNode res = c.buildTree(preorder, inorder);
+        int[] preorder = {1, 2, 3};
+        int[] inorder = {3, 2, 1};
+
+        // TreeNode res = c.buildTree(preorder, inorder);
+        TreeNode res = c.buildTree2(preorder, inorder);
 
     }
 }
