@@ -29,8 +29,46 @@ https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-postord
 public class ConstructBinaryTreeFromPreorderAndPostorderTraversal {
     public static void main(String[] args) {
        int[] pre = {1,2,4,5,3,6,7}, post = {4,5,2,6,7,3,1};
-       TreeNode res = constructFromPrePost(pre,post);
+        ConstructBinaryTreeFromPreorderAndPostorderTraversal c =
+                new ConstructBinaryTreeFromPreorderAndPostorderTraversal();
+       // TreeNode res = c.constructFromPrePost(pre,post);
+       TreeNode res = c.myBuildTree(pre,post);
     }
+
+    // 前序：根节点,[左子节点前序],[右子节点前序]
+    // 后序：[左子节点中序],[右子节点中序],根节点
+    // 	pre子数组的第一个为左子节点的头节点
+    // 	post子数组的最后一个为右子节点的头节点
+    public TreeNode myBuildTree(int[] preorder, int[] postorder) {
+        int len = preorder.length;
+        if (len == 0) return null;
+        TreeNode res = new TreeNode(preorder[0]);
+        if (len == 1) return res;
+        // 根据前序确定的根节点，找出左子树
+        int preLeftIdx = 1;
+        int preRightIdx = len - 1;
+        for (int i = 1; i < len; i++) {
+            if (preorder[i] == postorder[len - 2]) {
+                preRightIdx = i;
+                break;
+            }
+        }
+
+
+        int postLeftIdx = preLeftIdx - 1;
+        int postRightIdx = preRightIdx - 1;
+
+        int[] subPreHalf1 = Arrays.copyOfRange(preorder, preLeftIdx, preRightIdx);
+        int[] subPostHalf1 = Arrays.copyOfRange(postorder, postLeftIdx, postRightIdx);
+        res.left = myBuildTree(subPreHalf1, subPostHalf1);
+
+        int[] subPreHalf2 = Arrays.copyOfRange(preorder, preRightIdx , len);
+        int[] subPosHalf2 = Arrays.copyOfRange(postorder, postRightIdx, len - 1);
+        res.right = myBuildTree(subPreHalf2, subPosHalf2);
+
+        return res;
+    }
+
 
     /*
 
