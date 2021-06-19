@@ -1,9 +1,6 @@
 package com.wyb.leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 // Definition for a binary tree node.
 public class TreeNode {
@@ -25,33 +22,46 @@ public class TreeNode {
         this.right = right;
     }
 
-    // todo transListToTree
-    public static TreeNode transListToTree(List<Integer> nums) {
-        // root = [6,2,8,0,4,7,9,null,null,3,5]
-        int len = nums.size();
-        int ideaSize = binarySizeFor(len);
-        System.out.println("len : " + len);
-        System.out.println("ideaSize : " + ideaSize);
-
-        return helper(nums,0,len - 1, ideaSize);
+    public static TreeNode transArrayToTree(String nums) {
+        int len = nums.length();
+        String[] arrStr = nums.split(",");
+        int[] arr = new int[arrStr.length];
+        int d = 0, idx = 0;
+        for (String s : arrStr) {
+            if (s.equalsIgnoreCase("null"))
+                d = Integer.MAX_VALUE;
+            else
+                d = Integer.valueOf(s);
+            arr[idx++] = d;
+        }
+        // int[] arr = {6,2,8,0,4,7,9,Integer.MAX_VALUE,Integer.MAX_VALUE,3,5};
+        return helper(arr);
     }
 
-    private static TreeNode helper(List<Integer> nums, int startIdx, int endIdx,int perfectSize){
-        int len = nums.size();
-        if (len == 0 || startIdx > len - 1) return null;
-        TreeNode res = new TreeNode(nums.get(startIdx));
-        if (len == 1) return res;
-
-        int leftStartIdx = startIdx + 1;
-        int rightStartIdx = perfectSize >> 1;
-
-        res.left = helper(nums,leftStartIdx, rightStartIdx, rightStartIdx);
-        res.right = helper(nums,rightStartIdx, endIdx, rightStartIdx);
-        return res;
+    private static TreeNode helper(int[] nums) {
+        int len = nums.length;
+        if (len == 0) return null;
+        TreeNode p = new TreeNode(nums[0]);
+        TreeNode q = p;
+        Queue<TreeNode> queue = new LinkedList<>();
+        int i = 0;
+        while (p != null && 2 * i + 1 < len) {
+            if ((nums[2 * i + 1]) != Integer.MAX_VALUE) {
+                p.left = new TreeNode(nums[2 * i + 1]);
+                queue.add(p.left);
+            }
+            if ((nums[2 * i + 2]) != Integer.MAX_VALUE) {
+                p.right = new TreeNode(nums[2 * i + 2]);
+                queue.add(p.right);
+            }
+            p = queue.poll();
+            i += 1;
+        }
+        return q;
     }
 
 
-     private static int binarySizeFor(int cap) {
+    private int binarySizeFor(int cap) {
         int MAXIMUM_CAPACITY = 1 << 30;
         int n = cap - 1;
         n |= n >>> 1;
