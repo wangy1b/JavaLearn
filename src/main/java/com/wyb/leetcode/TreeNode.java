@@ -45,12 +45,12 @@ public class TreeNode {
         TreeNode q = p;
         Queue<TreeNode> queue = new LinkedList<>();
         int i = 0;
-        while (p != null && 2 * i + 1 < len) {
-            if ((nums[2 * i + 1]) != Integer.MAX_VALUE) {
+        while (p != null) {
+            if (2 * i + 1 < len && (nums[2 * i + 1]) != Integer.MAX_VALUE) {
                 p.left = new TreeNode(nums[2 * i + 1]);
                 queue.add(p.left);
             }
-            if ((nums[2 * i + 2]) != Integer.MAX_VALUE) {
+            if (2 * i + 2 < len && (nums[2 * i + 2]) != Integer.MAX_VALUE) {
                 p.right = new TreeNode(nums[2 * i + 2]);
                 queue.add(p.right);
             }
