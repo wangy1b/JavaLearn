@@ -42,9 +42,8 @@ public class WiggleSortII {
         WiggleSortII w = new WiggleSortII();
         // w.wiggleSort1(nums);
         // w.wiggleSort2(nums);
-        // w.wiggleSort3(nums);
+        w.wiggleSort3(nums);
         // w.qsort(nums, 0, nums.length - 1);
-        w.wiggleSort(nums);
 
         for (int i = 0; i < nums.length; i++) {
             System.out.print(nums[i] + " ");
@@ -198,25 +197,6 @@ public class WiggleSortII {
             while (bucket[j] == 0) j--;//找到不为0的桶
             nums[i] = j;
             bucket[j]--;
-        }
-    }
-
-    // 没有重复数据就是对的
-    public void wiggleSort(int[] nums) {
-        if (nums == null || nums.length <= 1) {
-            return;
-        }
-
-        for (int i = 1; i < nums.length; i++) {
-            if (i % 2 == 1) {
-                if (nums[i - 1] > nums[i]) {
-                    swap(nums, i - 1, i);
-                }
-            } else {
-                if (nums[i - 1] < nums[i]) {
-                    swap(nums, i - 1, i);
-                }
-            }
         }
     }
 
