@@ -55,7 +55,7 @@ import java.util.List;
 https://leetcode-cn.com/problems/recover-binary-search-tree/
 
  */
-public class RecoverBinarySearchTree {
+public class BinarySearchTreeRecover {
 
     public void recoverTree(TreeNode root) {
         List<Integer> list = new ArrayList<>();
@@ -95,7 +95,7 @@ public class RecoverBinarySearchTree {
 
 
     public static void main(String[] args) {
-        RecoverBinarySearchTree r = new RecoverBinarySearchTree();
+        BinarySearchTreeRecover r = new BinarySearchTreeRecover();
         String nums = "1,3,null,null,2";
         // String nums = "3,1,4,null,null,2";
         TreeNode root = TreeNode.transArrayToTree(nums);
