@@ -54,14 +54,13 @@ public class BinarySearchTreeDeleteNode {
         if (root.val == key) {
             // 1.把left提上来左root
             TreeNode h = root;
-            TreeNode pred = h;
-            while (h != null) {
-                pred = h;
+            while (h.left != null) {
+                TreeNode pred = h;
                 h = h.left != null ? h.left : h.right;
                 if (h != null)
                     pred.val = h.val;
-                else
-                    pred = null;
+                if (h.left == null)
+                    pred.left = null;
             }
             return root;
         }
@@ -73,6 +72,7 @@ public class BinarySearchTreeDeleteNode {
     public static void main(String[] args) {
         BinarySearchTreeDeleteNode b = new BinarySearchTreeDeleteNode();
         String nums = "5,3,6,2,4,null,7";
+        // String nums = "3,2,4";
         int key = 3;
         TreeNode root = TreeNode.transArrayToTree(nums);
         TreeNode res = b.deleteNode(root, key);
