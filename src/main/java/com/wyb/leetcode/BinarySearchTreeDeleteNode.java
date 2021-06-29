@@ -49,43 +49,37 @@ https://leetcode-cn.com/problems/delete-node-in-a-bst/
 public class BinarySearchTreeDeleteNode {
     // todo 20210625 bst
     public TreeNode deleteNode(TreeNode root, int key) {
-        if (root == null) return root;
-        // 找到跟值相等的地方
-        if (key == root.val) {
-            // 优先找左子节点,找子节点中最大的一个，返回其前一个节点
-            TreeNode h = root;
-            if (h.left != null) {
-                pred = h;
-                TreeNode leftMax = findMaxNode(h.left);
-                    // 若为左子节点中的，肯定为最后一个节点
-                    // 只要先将值改为最大节点的值
-                    h.val = leftMax.val;
-                    // 然后将最大节点(即前一个节点，pred的下一个节点)设置为null
-                    if (leftMax == pred.left)
-                        pred.left = null;
-                    else
-                        pred.right = null;
-
-                } else{ // 否则，若为右子节点中的最小的那个，然后？tbd
-                    pred = h;
-                    TreeNode rightMin = findMinNode(h.right);
-                    h.val = rightMin.val;
-                    TreeNode rr = rightMin;
-                    // 递归将子节点上移
-                    if (rr.right != null) {
-                        while (rr.right != null) {
-                            rr = rr.right;
-                        }
-                    } else
-                        pred.left = null;
+        if (root == null) return null;
+        pred = root;
+        TreeNode h = root;
+        while (h != null) {
+            // 找到跟值相等的地方
+            if (key == h.val) {
+                // 优先找左子节点
+                if (h.left != null) {
+                    //有左子节点,上提左子节点
+                    siftUpLeft(h);
+                } else { // 找右子节点
+                    // 若没有右子节点
+                    if (h.right == null) {
+                        if (pred.left.val == h.val)
+                            pred.left = null;
+                        else
+                            pred.right = null;
+                        h = null;
+                    }
+                    // 有右子节点,上提右子节点
+                    siftUpRight(h);
                 }
-            return root;
+                h = null;
+            }
+            // 值小于root的值就向左
+            else if (key < h.val)
+                h = deleteNode(h.left, key);
+            else // 值大于root的值就向右
+                h = deleteNode(h.right, key);
         }
-        // 值小于root的值就向左
-        else if (key < root.val)
-            return deleteNode(root.left, key);
-        // 值大于root的值就向右
-        return deleteNode(root.right, key);
+        return root;
     }
 
     /**
@@ -100,12 +94,11 @@ public class BinarySearchTreeDeleteNode {
         if (root.left == null &&  root.right == null)
             return root;
         TreeNode h = root;
-        pred = h;
         // 优先选择右子节点
-        if (h.right != null)
+        if (h.right != null) {
+            pred = h;
             h = findMaxNode(h.right);
-        else
-            h = findMaxNode(h.left);
+        }
         return h;
     }
 
@@ -113,12 +106,11 @@ public class BinarySearchTreeDeleteNode {
         if (root.left == null &&  root.right == null)
             return root;
         TreeNode h = root;
-        pred = h;
         // 优先选择左子节点
-        if (h.left != null)
+        if (h.left != null) {
+            pred = h;
             h = findMinNode(h.left);
-        else
-            h = findMinNode(h.right);
+        }
         return h;
     }
 
@@ -126,31 +118,41 @@ public class BinarySearchTreeDeleteNode {
     // 将其左子节点往上移动
     // 需要在左子节点里找到最大的值，赋值给root即可，然后最大节点设置为null即可；
     private void siftUpLeft(TreeNode root){
-        TreeNode h = root;
-        pred = h;
-        // 优先选择右子节点
-        if (h.right != null)
-            h = findMaxNode(h.right);
+        TreeNode leftMax = findMaxNode(root.left);
+        // 若为左子节点中的，肯定为最后一个节点
+        // 只要先将值改为最大节点的值
+        root.val = leftMax.val;
+        // 然后将最大节点(即前一个节点，pred的下一个节点)设置为null
+        if (leftMax == pred.left)
+            pred.left = leftMax.left;
         else
-            h = findMaxNode(h.left);
-
+            pred.right = null;
     }
 
     // 将其右子节点往上移动
     // 需要在右子节点里找到最小的值，赋值给root，然后最小节点设置为? TBD
     private void siftUpRight(TreeNode root){
-
+        // 有子节点
+        TreeNode rightMin = findMinNode(root.right);
+        root.val = rightMin.val;
+        TreeNode rr = rightMin;
+        // 递归将子节点上移
+        if (rr.right != null) {
+            while (rr.right != null) {
+                rr = rr.right;
+            }
+        } else
+            pred.left = null;
     }
 
     public static void main(String[] args) {
         BinarySearchTreeDeleteNode b = new BinarySearchTreeDeleteNode();
         // String nums = "5,3,6,2,4,null,7";
         // String nums = "3,2,4";
-        // String nums = "1,null,2,null,null,null,3,null,null,null,null,null,null,null,4,null,null,null,null,null,null,null," +
-        //         "null,null,null,null,null,null,null,null,5";
-        String nums = "5,4,null,3,null,null,null,2";
+        String nums = "1,null,2,null,3,null,4,null,5";
+        // String nums = "5,4,null,3,null,2,null,1";
         int key = 3;
         TreeNode root = TreeNode.transArrayToTree(nums);
-        // TreeNode res = b.deleteNode(root, key);
+        TreeNode res = b.deleteNode(root, key);
     }
 }
