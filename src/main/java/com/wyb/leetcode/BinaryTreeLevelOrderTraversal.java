@@ -33,6 +33,19 @@ https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
  */
 public class BinaryTreeLevelOrderTraversal {
     public static void main(String[] args) {
+        BinaryTreeLevelOrderTraversal b = new BinaryTreeLevelOrderTraversal();
+        TreeNode root = new TreeNode(5,
+                new TreeNode(4,
+                        new TreeNode(3,
+                                new TreeNode(2,
+                                        new TreeNode(1),
+                                        null),
+                                null),
+                        null),
+                null);
+
+        List<List<Integer>> res = b.levelOrderBSF(root);
+        System.out.println(res);
 
     }
 
