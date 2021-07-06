@@ -47,7 +47,16 @@ https://leetcode-cn.com/problems/delete-node-in-a-bst/
 
  */
 public class BinarySearchTreeDeleteNode {
-    // todo 20210625 bst
+    // todo 20210706 bst
+    // 针对要删除的节点子节点个数不同，需要分三种情况来处理：
+    // 第一种，如果要删除的节点没有子节点，只需要将父节点指向null
+    // 第二种，如果要删除的节点只有一个子节点，只需更新父节点中，指向要删除的节点的指针的子节点即可
+    // 第三种，如果要删除的节点有两个子节点。
+    //     1.需要找到这个节点的右子树上的最小节点，把它替换到要删除的节点上，然后再去删除最小节点，
+    //       因为这个节点肯定没有左子节点，所以可以利用上面第一种情况来删除这个节点
+    // 或者：
+    //     2.需要找到这个节点的左子树上的最大节点，把它替换到要删除的节点上，然后再去删除最大节点，
+    //       因为这个节点肯定没有右子节点，所以可以利用上面第一种情况来删除这个节点
     public TreeNode deleteNode(TreeNode root, int key) {
         if (root == null) return null;
         pred = root;
