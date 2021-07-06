@@ -43,14 +43,43 @@ package com.wyb.leetcode;
  https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/
  */
 public class BinarySearchTreeAddNode {
-    // todo 20210625 bst
+    // 二叉搜索树插入的过程有点类似查找操作。
+    // 新插入的数据一般都是再叶子节点上，所以需要从根节点开始，依次比较要插入的数据和节点的大小:
+    // 1.如果插入的数据比节点的数据大，并且节点右子树为空，就将新数据直接查到右子节点的位置；
+    //   如果右子树不为空，就再递归遍历右子树，找到插入位置。
+    // 2.同理，如果插入的数据比节点数据小，并且节点左子树为空，就将新数据直接查到左子节点的位置；
+    //     如果左子树不为空，就再递归遍历左子树，找到插入位置。
     public TreeNode insertIntoBST(TreeNode root, int val) {
-        return null;
+        if (root == null){
+            return new TreeNode(val);
+        }
+        TreeNode p = root;
+        while (p != null) {
+            if (val > p.val) {
+                if (p.right == null) {
+                    p.right = new TreeNode(val);
+                    break;
+                }else
+                    p = p.right;
+            } else {
+                if (p.left == null) {
+                    p.left = new TreeNode(val);
+                    break;
+                }
+                p = p.left;
+            }
+        }
+        return root;
     }
 
 
     public static void main(String[] args) {
         BinarySearchTreeAddNode b = new BinarySearchTreeAddNode();
-
+        // String nums = "4,2,7,1,3";
+        // int val = 5;
+        String nums = "40,20,60,10,30,50,70";
+        int val = 25;
+        TreeNode root = TreeNode.transArrayToTree(nums);
+        TreeNode res = b.insertIntoBST(root, val);
     }
 }
