@@ -48,7 +48,7 @@ https://leetcode-cn.com/problems/delete-node-in-a-bst/
  */
 public class BinarySearchTreeDeleteNode {
     TreeNode pred;
-
+    // 官方解在 DeleteNodeInABst 中
     public TreeNode deleteNode(TreeNode root, int key) {
         if (root == null) return null;
         root = new TreeNode(Integer.MAX_VALUE, root, null);
@@ -154,8 +154,10 @@ public class BinarySearchTreeDeleteNode {
         }
     }
 
-    // 将其右子节点往上移动
-    // 需要在右子节点里找到最小的值，赋值给root，然后最小节点设置为? TBD
+    /**
+    * 将其右子节点往上移动
+    * 需要在右子节点里找到最小的值，赋值给root，然后最小节点设置null
+    */
     private void siftUpRight(TreeNode root) {
         //2.需要找到这个节点的左子树上的最大节点，把它替换到要删除的节点上，然后再去删除最大节点，
         pred = root;
