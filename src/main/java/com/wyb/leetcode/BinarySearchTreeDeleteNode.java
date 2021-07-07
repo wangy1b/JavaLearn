@@ -47,120 +47,145 @@ https://leetcode-cn.com/problems/delete-node-in-a-bst/
 
  */
 public class BinarySearchTreeDeleteNode {
-    // todo 20210706 bst
+    TreeNode pred;
+
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return null;
+        root = new TreeNode(Integer.MAX_VALUE, root, null);
+        TreeNode h = root;
+        pred = h;
+        while (h != null) {
+            // 找到跟值相等的地方
+            if (key == h.val) {
+                helper(h);
+                break;
+            } else if (key < h.val) {  // 值小于root的值就向左
+                pred = h;
+                h = h.left;
+            } else {// 值大于root的值就向右
+                pred = h;
+                h = h.right;
+            }
+        }
+        return root.left;
+    }
+
     // 针对要删除的节点子节点个数不同，需要分三种情况来处理：
     // 第一种，如果要删除的节点没有子节点，只需要将父节点指向null
     // 第二种，如果要删除的节点只有一个子节点，只需更新父节点中，指向要删除的节点的指针的子节点即可
     // 第三种，如果要删除的节点有两个子节点。
     //     1.需要找到这个节点的右子树上的最小节点，把它替换到要删除的节点上，然后再去删除最小节点，
-    //       因为这个节点肯定没有左子节点，所以可以利用上面第一种情况来删除这个节点
+    //       因为这个节点肯定没有左子节点，所以可以利用上面两种情况来删除这个节点
     // 或者：
     //     2.需要找到这个节点的左子树上的最大节点，把它替换到要删除的节点上，然后再去删除最大节点，
-    //       因为这个节点肯定没有右子节点，所以可以利用上面第一种情况来删除这个节点
-    public TreeNode deleteNode(TreeNode root, int key) {
-        if (root == null) return null;
-        pred = root;
-        TreeNode h = root;
-        while (h != null) {
-            // 找到跟值相等的地方
-            if (key == h.val) {
-                // 优先找左子节点
-                if (h.left != null) {
-                    //有左子节点,上提左子节点
-                    siftUpLeft(h);
-                } else { // 找右子节点
-                    // 若没有右子节点
-                    if (h.right == null) {
-                        if (pred.left.val == h.val)
-                            pred.left = null;
-                        else
-                            pred.right = null;
-                        h = null;
-                    }
-                    // 有右子节点,上提右子节点
-                    siftUpRight(h);
-                }
-                h = null;
-            }
-            // 值小于root的值就向左
-            else if (key < h.val)
-                h = deleteNode(h.left, key);
-            else // 值大于root的值就向右
-                h = deleteNode(h.right, key);
+    //       因为这个节点肯定没有右子节点，所以可以利用上面两种情况来删除这个节点
+    private void helper(TreeNode h) {
+        //  第一种，如果要删除的节点没有子节点，只需要将父节点指向null
+        if (h.left == null && h.right == null) {
+            if (pred.left != null && pred.left.val == h.val)
+                pred.left = null;
+            else
+                pred.right = null;
+            // 第二种，如果要删除的节点只有一个子节点，只需更新父节点中，指向要删除的节点的指针的子节点即可
+        } else if (h.left == null || h.right == null) {
+            if (pred.left != null && pred.left.val == h.val)
+                pred.left = h.left != null ? h.left : h.right;
+            else
+                pred.right = h.left != null ? h.left : h.right;
+        } else { //第三种，如果要删除的节点有两个子节点。
+            // 1.需要找到这个节点的右子树上的最小节点，把它替换到要删除的节点上，然后再去删除最小节点，
+            siftUpRight(h);
+            // 2.需要找到这个节点的左子树上的最大节点，把它替换到要删除的节点上，然后再去删除最大节点，
+            // siftUpLeft(h);
         }
-        return root;
     }
 
     /**
-     * 如果在左子节中找，需要在左子节点里找到最大的值，赋值给root即可，然后最大节点设置为null即可；
-     * 否则，则需要在右子节点里找到最小的值，赋值给root，然后最小节点设置为? TBD；
-     *
-     * 由于二叉搜索树的特性，左子节点最大值肯定在最后一个叶子节点，因此返回的只要是最大节点的前一个节点即可;
+     * 如果在左子树中找，需要在左子树里找到最大的值，赋值给root即可，然后最大节点设置为null即可；
+     * 由于二叉搜索树的特性，左子节点中的最大值肯定在最后一个叶子节点;
      */
-
-    TreeNode pred = null;
-    private TreeNode findMaxNode(TreeNode root){
-        if (root.left == null &&  root.right == null)
-            return root;
-        TreeNode h = root;
+    private TreeNode findMaxNode(TreeNode h) {
+        if (h.left == null && h.right == null)
+            return h;
         // 优先选择右子节点
-        if (h.right != null) {
+        while (h.right != null) {
             pred = h;
-            h = findMaxNode(h.right);
+            h = h.right;
         }
         return h;
     }
 
-    private TreeNode findMinNode(TreeNode root){
-        if (root.left == null &&  root.right == null)
+    /**
+     * 如果在右子树中找，需要在右子树里找到最小的值，赋值给root即可，然后最小节点设置为null即可；
+     * 由于二叉搜索树的特性，右子树中的最大值肯定在最后一个叶子节点;
+     */
+    private TreeNode findMinNode(TreeNode root) {
+        if (root.left == null && root.right == null)
             return root;
-        TreeNode h = root;
         // 优先选择左子节点
-        if (h.left != null) {
-            pred = h;
-            h = findMinNode(h.left);
+        while (root.left != null) {
+            pred = root;
+            root = root.left;
         }
-        return h;
+        return root;
     }
 
 
     // 将其左子节点往上移动
     // 需要在左子节点里找到最大的值，赋值给root即可，然后最大节点设置为null即可；
-    private void siftUpLeft(TreeNode root){
+    private void siftUpLeft(TreeNode root) {
+        // 需要找到这个节点的左子树上的最大节点，把它替换到要删除的节点上，然后再去删除最大节点，
+        pred = root;
         TreeNode leftMax = findMaxNode(root.left);
-        // 若为左子节点中的，肯定为最后一个节点
-        // 只要先将值改为最大节点的值
         root.val = leftMax.val;
-        // 然后将最大节点(即前一个节点，pred的下一个节点)设置为null
-        if (leftMax == pred.left)
-            pred.left = leftMax.left;
-        else
-            pred.right = null;
+        // 因为 leftMax 这个节点肯定没有右子节点
+        //  类似第一种，如果要删除的节点没有子节点，只需要将父节点指向null
+        if (leftMax.left == null) {
+            if (pred.left != null && pred.left.val == leftMax.val)
+                pred.left = null;
+            else
+                pred.right = null;
+            // 类似第二种，如果要删除的节点只有一个子节点，只需更新父节点中，指向要删除的节点的指针的子节点即可
+        } else if (leftMax.left != null) {
+            if (pred.left != null && pred.left.val == leftMax.val)
+                pred.left = leftMax.left;
+            else
+                pred.right = leftMax.left;
+        }
     }
 
     // 将其右子节点往上移动
     // 需要在右子节点里找到最小的值，赋值给root，然后最小节点设置为? TBD
-    private void siftUpRight(TreeNode root){
-        // 有子节点
+    private void siftUpRight(TreeNode root) {
+        //2.需要找到这个节点的左子树上的最大节点，把它替换到要删除的节点上，然后再去删除最大节点，
+        pred = root;
         TreeNode rightMin = findMinNode(root.right);
         root.val = rightMin.val;
-        TreeNode rr = rightMin;
-        // 递归将子节点上移
-        if (rr.right != null) {
-            while (rr.right != null) {
-                rr = rr.right;
-            }
-        } else
-            pred.left = null;
+        // 因为 rightMin 这个节点肯定没有左子节点，所以可以利用上面两种情况来删除这个节点
+        //  类似第一种，如果要删除的节点没有子节点，这里只需判断右子节点在不在，只需要将父节点指向null
+        if (rightMin.right == null) {
+            if (pred.left != null && pred.left.val == rightMin.val)
+                pred.left = null;
+            else
+                pred.right = null;
+            // 类似第二种，如果要删除的节点只有一个子节点，只需更新父节点中，指向要删除的节点的指针的子节点即可
+        } else if (rightMin.right != null) {
+            if (pred.left != null && pred.left.val == rightMin.val)
+                pred.left = rightMin.right;
+            else
+                pred.right = rightMin.right;
+        }
     }
 
     public static void main(String[] args) {
         BinarySearchTreeDeleteNode b = new BinarySearchTreeDeleteNode();
         // String nums = "5,3,6,2,4,null,7";
         // String nums = "3,2,4";
-        String nums = "1,null,2,null,3,null,4,null,5";
+        // String nums = "1,null,2,null,3,null,4,null,5";
         // String nums = "5,4,null,3,null,2,null,1";
-        int key = 3;
+        // String nums = "3";
+        String nums = "1,null,2";
+        int key = 1;
         TreeNode root = TreeNode.transArrayToTree(nums);
         TreeNode res = b.deleteNode(root, key);
     }
