@@ -75,4 +75,15 @@ public class BinarySearchTreeToGreaterSumTree {
         TreeNode res = b.bstToGst(root);
     }
 
+    // 简化一下：反中序遍历累加当前值
+    int sum = 0;
+    public TreeNode convertBST(TreeNode root) {
+        if (root != null) {
+            convertBST(root.right);
+            sum += root.val;
+            root.val = sum;
+            convertBST(root.left);
+        }
+        return root;
+    }
 }
