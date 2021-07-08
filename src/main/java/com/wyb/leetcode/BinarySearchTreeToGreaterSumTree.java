@@ -2,7 +2,8 @@ package com.wyb.leetcode;
 
 /**
  * 1038. 把二叉搜索树转换为累加树
- 给出二叉 搜索 树的根节点，该树的节点值各不相同，请你将其转换为累加树（Greater Sum Tree），使每个节点 node 的新值等于原树中大于或等于 node.val 的值之和。
+ 给出二叉 搜索 树的根节点，该树的节点值各不相同，请你将其转换为累加树（Greater Sum Tree），
+ 使每个节点 node 的新值等于原树中大于或等于 node.val 的值之和。
 
  提醒一下，二叉搜索树满足下列约束条件：
 
@@ -49,13 +50,29 @@ package com.wyb.leetcode;
  https://leetcode-cn.com/problems/binary-search-tree-to-greater-sum-tree/
  */
 public class BinarySearchTreeToGreaterSumTree {
-    // todo 20210625 bst
+    // 用反过来的中序遍历累加当前值
     public TreeNode bstToGst(TreeNode root) {
-        return null;
+        if (root == null) return null;
+        InOrderReverse(root);
+        return root;
+    }
+
+    int accSum = 0;
+    private void InOrderReverse(TreeNode root){
+        if (root.right != null)
+            InOrderReverse(root.right);
+        accSum += root.val;
+        root.val = accSum;
+        if (root.left != null)
+            InOrderReverse(root.left);
     }
 
     public static void main(String[] args) {
-
+        BinarySearchTreeToGreaterSumTree b =
+                new BinarySearchTreeToGreaterSumTree();
+        String nums = "3,2,4,1";
+        TreeNode root = TreeNode.transArrayToTree(nums);
+        TreeNode res = b.bstToGst(root);
     }
 
 }
