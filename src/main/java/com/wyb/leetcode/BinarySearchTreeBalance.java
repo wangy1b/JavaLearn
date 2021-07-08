@@ -1,5 +1,8 @@
 package com.wyb.leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 1382. 将二叉搜索树变平衡
  给你一棵二叉搜索树，请你返回一棵 平衡后 的二叉搜索树，新生成的树应该与原来的树有着相同的节点值。
@@ -32,11 +35,43 @@ package com.wyb.leetcode;
 
  */
 public class BinarySearchTreeBalance {
-    // todo 20210625 bst
+    /*
+    * 「平衡」要求它是一棵空树或它的左右两个子树的高度差的绝对值不超过 1，
+    * 这很容易让我们产生这样的想法——左右子树的大小越「平均」，这棵树会不会越平衡？
+    * 于是一种贪心策略的雏形就形成了：
+    *    我们可以通过中序遍历将原来的二叉搜索树转化为一个有序序列，然后对这个有序序列递归建树，对于区间 [L, R]：
+    *     1.取 mid=(L+R)/2，即中心位置作为当前节点的值；
+    *     2.如果 L≤mid−1，那么递归地将区间 [L,mid−1] 作为当前节点的左子树；
+    *     3.如果 mid+1≤R，那么递归地将区间 [mid+1,R] 作为当前节点的右子树。
+    */
+
+    List<Integer> inorderSeq = new ArrayList<Integer>();
     public TreeNode balanceBST(TreeNode root) {
-        return null;
+        getInorder(root);
+        return build(0, inorderSeq.size() - 1);
     }
 
+    public void getInorder(TreeNode o) {
+        if (o.left != null) {
+            getInorder(o.left);
+        }
+        inorderSeq.add(o.val);
+        if (o.right != null) {
+            getInorder(o.right);
+        }
+    }
+
+    public TreeNode build(int l, int r) {
+        int mid = (l + r) >> 1;
+        TreeNode o = new TreeNode(inorderSeq.get(mid));
+        if (l <= mid - 1) {
+            o.left = build(l, mid - 1);
+        }
+        if (mid + 1 <= r) {
+            o.right = build(mid + 1, r);
+        }
+        return o;
+    }
     public static void main(String[] args) {
 
     }
